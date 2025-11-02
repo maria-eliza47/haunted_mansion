@@ -60,14 +60,14 @@ bool gameRunning = true;
                     std::cout << "\n The ghost " << ghost.getName() << " appears in the room.\n";
 
                     if (ghost.isHostile()) {
-                        std::cout << "The ghost looks angry and intimidating.... do you want to (1) fight it or (2) run away from it? ";
+                        std::cout << "The ghost looks angry and intimidating....\n do you want to (1) fight it or (2) run away from it? ";
                         int gChoice;
                         std::cin >> gChoice;
                         std::cin.ignore();
 
                         if (gChoice == 1) {
                             std::cout << "You try to fight it, but your hands gets through it!\n";
-                            std::cout << "You feel your energy being drained away....\n You are in pain... \nGAME OVER XXXXXXXXXXX\n";
+                            std::cout << "You feel your energy being drained away....\n You are in pain... \nGAME OVER XXXXXXXXXXX.......\n RIP \n";
                             gameRunning = false;
 
                         }
@@ -101,7 +101,7 @@ bool gameRunning = true;
                     } else if (itemName == "Amulet" && currentRoom->getName() == "Basement") {
                         std::cout << "The amulet glows brightly! The whispers stop...\n";
                         std::cout << "You feel peace. You've broken the mansion’s curse.\n";
-                        std::cout << "\n CONGRATULATIONS, " << playerName << "! You survived the Haunted Mansion!\n";
+                        std::cout << "\n CONGRATULATIONS, " << playerName << "! You survived the Haunted Mansion!  YEYYYYYYYYY\n";
                         gameRunning = false;
                     }
                     break;
