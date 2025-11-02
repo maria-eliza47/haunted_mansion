@@ -1,13 +1,17 @@
-//
-// Created by PC on 11/2/2025.
-//
-
 #ifndef OOP_MANSION_H
 #define OOP_MANSION_H
 
+#include <vector>
+#include "Room.h"
 
 class Mansion {
+private:
+    std::vector<Room> rooms;
+
+public:
+    Mansion();
+    void addRoom(const Room& room);
+    void describe() const;
 };
 
-
-#endif //OOP_MANSION_H
+#endif

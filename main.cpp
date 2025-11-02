@@ -1,9 +1,9 @@
 #include <iostream>
-#include "Header/Item.h"
-#include "Header/Room.h"
-#include "Header/Player.h"
-#include "Header/Ghost.h"
-#include "Header/Mansion.h"
+#include "Item.h"
+#include "Room.h"
+#include "Player.h"
+#include "Ghost.h"
+#include "Mansion.h"
 
 int main() {
     Item key("Old Key", "A rusty key with strange symbols.", true);
@@ -27,3 +27,4 @@ int main() {
     mansion.describe();
 
     std::cout << "\n--- End of Haunted Mansion: Test Scenario ---\n";
+}
