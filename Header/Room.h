@@ -1,6 +1,3 @@
-//
-// Created by PC on 11/2/2025.
-//
 
 #ifndef OOP_ROOM_H
 #define OOP_ROOM_H

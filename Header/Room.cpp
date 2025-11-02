@@ -1,7 +1,3 @@
-//
-// Created by PC on 11/2/2025.
-//
-
 #include "Room.h"
 #include <iostream>
 
