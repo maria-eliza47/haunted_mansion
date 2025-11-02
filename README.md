@@ -1,4 +1,9 @@
-# Nu primesc notă pentru că nu am pus titlu și descriere
+# Haunted Mansion
+"Haunted Mansion" is an interactive text-based adventure game enriched with visual effects and dynamic console animations.
+The player wakes up inside an ancient, abandoned mansion, lost between reality and illusion. The goal is simple escape the mansion before the spirits claim your soul. But every step hides a secret, and every decision may change your fate.
+As the player explores, they will uncover mysterious rooms, haunted objects, and restless ghosts that each behave differently. Some may help. Others may lie. All of them are part of the mansion’s dark story.
+The gameplay revolves around exploration, decision-making, and survival. The player can move between interconnected rooms, pick up and use items, and interact with entities through text commands. Each action has consequences — some are subtle, others fatal.
+A wrong choice might awaken something you were not supposed to see.
 
 ### Folosiți template-ul corespunzător grupei voastre!
 
