@@ -1,6 +1,5 @@
-
-#ifndef OOP_ROOM_H
-#define OOP_ROOM_H
+#ifndef ROOM_H
+#define ROOM_H
 
 #include <string>
 #include <vector>
@@ -12,16 +11,20 @@ private:
     std::string name;
     std::string description;
     std::vector<Item> items;
-    Ghost* ghost;
-    public:
-    Room();
+    bool ghostPresent;
+    Ghost ghost;
+
+public:
     Room(const std::string& n, const std::string& d);
+
+    const std::string& getName() const { return name; }
+    const std::string& getDescription() const { return description; }
 
     void addItem(const Item& item);
     void setGhost(const Ghost& g);
+    bool hasGhost() const;
+    Ghost getGhost() const;
     void describe() const;
-
 };
 
-
-#endif //OOP_ROOM_H
+#endif
