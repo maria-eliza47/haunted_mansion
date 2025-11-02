@@ -1,4 +1,4 @@
-#include "Header/Mansion.h"
+#include "Mansion.h"
 #include <iostream>
 
 Mansion::Mansion() {}

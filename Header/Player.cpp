@@ -1,4 +1,4 @@
-#include "Header/Player.h"
+#include "Player.h"
 #include <iostream>
 
 Player::Player() : name("Unnamed Player") {}

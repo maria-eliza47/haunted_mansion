@@ -1,4 +1,4 @@
-#include "Header/Item.h"
+#include "Item.h"
 
 Item::Item() : name("Unknown"), description("No description."), usable(false) {}
 
