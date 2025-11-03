@@ -93,12 +93,15 @@ bool gameRunning = true;
             case 1:
                 player.inspectRoom(*currentRoom);
                 currentRoom->setExplored(true);
-                if (currentRoom == &library && !stairsFound) {
+                if (currentRoom == &library) {
+    if (player.hasItem("Candle")) {
+        if (!stairsFound) {
+            std::cout << "As the candlelight flickers, a hidden passage reveals itself behind a bookshelf...\n";
+            stairsFound = true;
+        }
 
-                    if (player.hasItem("Candle")) {
-                        std::cout << "As the candlelight flickers, a hidden passage reveals itself behind a bookshelf...\n";
-                        std::cout << "A spiral staircase leads upward into darkness.\n";
-                        std::cout << "Do you (1) Ignore it or (2) Go up the stairs?\n> ";
+        std::cout << "A spiral staircase leads upward into darkness.\n";
+        std::cout << "Do you (1) Ignore it or (2) Go up the stairs?\n> ";
 
         int stairChoice;
         if (!(std::cin >> stairChoice)) {
@@ -109,10 +112,11 @@ bool gameRunning = true;
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
         if (stairChoice == 2) {
-            std::cout << "You push aside the heavy bookshelf and begin climbing...\n";
-            stairsFound = true;
-            atticDiscovered = true;
-            mansion.addRoom(attic);
+            if (!atticDiscovered) {
+                std::cout << "You push aside the heavy bookshelf and begin climbing...\n";
+                atticDiscovered = true;
+                mansion.addRoom(attic);
+            }
             currentRoom = &attic;
             std::cout << "\nYou arrive in the " << currentRoom->getName() << ".\n";
 
@@ -131,10 +135,8 @@ bool gameRunning = true;
                 std::cout << "Her smile fades. The attic grows cold... The air shifts ominously.\n";
                 std::cout << "A dark presence seems to awaken somewhere nearby.\n";
             }
-
         } else {
             std::cout << "You decide to leave the staircase untouched... for now.\n";
-            stairsFound = true;
         }
     } else {
         std::cout << "It is too dark to notice anything unusual... Maybe a light source would help.\n";
@@ -273,13 +275,13 @@ bool gameRunning = true;
                     gameRunning = false;
                     break;
                 }
-            case 6: {
+                case 6: {
                     std::cout << "\n===== INVENTORY =====\n";
                     player.showInventory();
                     std::cout << "=====================\n";
                     break;
-            }
-            case 7: {
+                }
+                case 7: {
                     std::cout << "\n=== HELP MENU ===\n";
                     std::cout << "1 - Look around to explore a room.\n";
                     std::cout << "2 - Pick up discovered items.\n";
@@ -292,8 +294,8 @@ bool gameRunning = true;
                     std::cout << "9 - See a simple map of the mansion.\n";
                     std::cout << "=====================\n";
                     break;
-            }
-            case 8: {
+                }
+                case 8: {
                     std::cout << "\n=== GAME RULES ===\n";
                     std::cout << "1. You must explore a room before picking items.\n";
                     std::cout << "2. Some rooms may be haunted — be careful.\n";
@@ -302,7 +304,7 @@ bool gameRunning = true;
                     std::cout << "==================\n";
                     break;
             }
-            case 9: {
+                case 9: {
                     std::cout << "\n=== MANSION MAP ===\n";
                     std::cout << "[Hallway] --- [Basement]\n";
                     std::cout << "    |\n";
@@ -313,9 +315,9 @@ bool gameRunning = true;
                     }
                     std::cout << "===================\n";
                     break;
-            }
+                }
 
-            default:
+                default:
                 std::cout << "Invalid choice. Try again. \n";
                 break;
         }
