@@ -1,4 +1,5 @@
 #include <iostream>
+#include <limits>
 #include "Item.h"
 #include "Room.h"
 #include "Player.h"
@@ -47,11 +48,18 @@ bool gameRunning = true;
         std::cout << "3. Use an item\n";
         std::cout << "4. Move to another room\n";
         std::cout << "5. Exit the mansion\n";
-        std::cout << "> ";
 
         int choice;
-        std::cin >> choice;
-        std::cin.ignore();
+        std::cout << "> ";
+
+        if (!(std::cin >> choice)) {
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // curăță restul liniei
+            std::cout << "Invalid input. Please enter a number between 1 and 5.\n";
+            continue;
+        }
+
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
         switch (choice) {
             case 1:
