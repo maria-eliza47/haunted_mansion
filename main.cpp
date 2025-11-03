@@ -104,21 +104,47 @@ bool gameRunning = true;
                     break;
                 }
                 case 3: {
+                    if (!currentRoom->hasBeenExplored()) {
+                        std::cout << "Hint: You should look around before using any items.\n";
+                        break;
+                    }
+
                     std::cout << "Enter the item name to use: ";
                     std::string itemName;
                     std::getline(std::cin, itemName);
+                    if (player.hasItem(itemName)) {
+                        std::cout << "You don't have an item called: " << itemName << "in your inventory.\n";
+                        break;
+                    }
                     player.useItem(itemName);
 
                     if (itemName == "Candle") {
                         std::cout << "The candle flickers, revealing symbols on the wall...\n";
-                    } else if (itemName == "Old Key" && currentRoom->getName() == "Basement") {
-                        std::cout << "The key unlocks a hidden passage in the basement!\n";
-                    } else if (itemName == "Amulet" && currentRoom->getName() == "Basement") {
-                        std::cout << "The amulet glows brightly! The whispers stop...\n";
-                        std::cout << "You feel peace. You've broken the mansion'sjhngbfvd curse\n";
-                        std::cout << "\n CONGRATULATIONS, " << playerName << "! You survived the Haunted Mansion!  YEYYYYYYYYY\n";
-                        gameRunning = false;
                     }
+                    else if (itemName == "Old Key") {
+                        if (currentRoom->getName() == "Basement") {
+                            std::cout << "The key unlocks a hidden passage in the basement!\n";
+                        }
+                        else {
+                            std::cout << "You try the key, but nothing nearby seems to fit, maybe try in a different room ;)))";
+
+                        }
+                    }
+
+                     else if (itemName == "Amulet") {
+                         if (currentRoom->getName() == "Basement") {
+                             std::cout << "The amulet glows brightly! The whispers stop...\n";
+                             std::cout << "You feel peace. You've broken the mansion'sjhngbfvd curse\n";
+                             std::cout << "\n CONGRATULATIONS, " << playerName << "! You survived the Haunted Mansion!  YEYYYYYYYYY\n";
+                             gameRunning = false;
+                         }
+                         else {
+                             std::cout <<"The amulet glows faintly but nothing happened here...\n";
+                         }
+                     }
+                     else {
+                         std::cout << "Nothing happens when you try to use the " << itemName << ".\n";
+                     }
                     break;
                 }
                 case 4: {
