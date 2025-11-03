@@ -82,7 +82,7 @@ bool gameRunning = true;
 
         if (!(std::cin >> choice)) {
             std::cin.clear();
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // curăță restul liniei
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
             std::cout << "Invalid input. Please enter a number between 1 and 9.\n";
             continue;
         }
