@@ -100,7 +100,7 @@ bool gameRunning = true;
                         std::cout << "The key unlocks a hidden passage in the basement!\n";
                     } else if (itemName == "Amulet" && currentRoom->getName() == "Basement") {
                         std::cout << "The amulet glows brightly! The whispers stop...\n";
-                        std::cout << "You feel peace. You've broken the mansion’s curse.\n";
+                        std::cout << "You feel peace. You've broken the mansion's curse\n";
                         std::cout << "\n CONGRATULATIONS, " << playerName << "! You survived the Haunted Mansion!  YEYYYYYYYYY\n";
                         gameRunning = false;
                     }
