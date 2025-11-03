@@ -264,7 +264,6 @@ bool gameRunning = true;
                     }
                     currentRoom =nextRoom;
                     std::cout << "\nMoving to " << currentRoom->getName() << "...\n";
-                    player.inspectRoom(*currentRoom);
                     break;
 
                 }
