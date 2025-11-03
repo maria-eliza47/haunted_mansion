@@ -137,7 +137,7 @@ bool gameRunning = true;
             stairsFound = true;
         }
     } else {
-        std::cout << "It’s too dark to notice anything unusual... Maybe a light source would help.\n";
+        std::cout << "It is too dark to notice anything unusual... Maybe a light source would help.\n";
     }
 }
 
