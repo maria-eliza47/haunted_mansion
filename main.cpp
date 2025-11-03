@@ -14,6 +14,16 @@ int main() {
 
     Player player(playerName);
 
+    std::cout << "\nWelcome, " << playerName << "! Your journey in this haunted place is about to begin...\n";
+    std::cout << "\n========== GAME RULES ==========\n";
+    std::cout << "1. You must explore a room before picking up items.\n";
+    std::cout << "2. Some rooms contain ghosts...choose wisely when they appear.\n";
+    std::cout << "3. Use collected items to reveal secrets or unlock new rooms.\n";
+    std::cout << "4. You can open the help menu anytime to see commands.\n";
+    std::cout << "5. Win by breaking the mansion's curse!\n";
+    std::cout << "================================\n\n";
+
+
     Item key("Old Key", "A rusty key with strange symbols.", true);
     Item candle("Candle", "A flickering candle that lights the room.", true);
     Item amulet("Amulet", "A glowing charm that seems to repel spirits.", true);
@@ -48,6 +58,10 @@ bool gameRunning = true;
         std::cout << "3. Use an item\n";
         std::cout << "4. Move to another room\n";
         std::cout << "5. Exit the mansion\n";
+        std::cout << "6. View inventory\n";
+        std::cout << "7. Help\n";
+        std::cout << "8. Rules\n";
+        std::cout << "9. View map\n";
 
         int choice;
         std::cout << "> ";
@@ -186,6 +200,44 @@ bool gameRunning = true;
                     gameRunning = false;
                     break;
                 }
+            case 6: {
+                    std::cout << "\n===== INVENTORY =====\n";
+                    player.showInventory();
+                    std::cout << "=====================\n";
+                    break;
+            }
+            case 7: {
+                    std::cout << "\n=== HELP MENU ===\n";
+                    std::cout << "1 - Look around to explore a room.\n";
+                    std::cout << "2 - Pick up discovered items.\n";
+                    std::cout << "3 - Use items to unlock secrets or fight curses.\n";
+                    std::cout << "4 - Move to another room.\n";
+                    std::cout << "5 - Exit the mansion.\n";
+                    std::cout << "6 - View your inventory.\n";
+                    std::cout << "7 - View help menu again.\n";
+                    std::cout << "8 - See the rules.\n";
+                    std::cout << "9 - See a simple map of the mansion.\n";
+                    std::cout << "=====================\n";
+                    break;
+            }
+            case 8: {
+                    std::cout << "\n=== GAME RULES ===\n";
+                    std::cout << "1. You must explore a room before picking items.\n";
+                    std::cout << "2. Some rooms may be haunted — be careful.\n";
+                    std::cout << "3. Use items wisely to survive.\n";
+                    std::cout << "4. You win if you lift the mansion’s curse!\n";
+                    std::cout << "==================\n";
+                    break;
+            }
+            case 9: {
+                    std::cout << "\n=== MANSION MAP ===\n";
+                    std::cout << "[Hallway] --- [Library]\n";
+                    std::cout << "    |\n";
+                    std::cout << " [Basement]\n";
+                    std::cout << "===================\n";
+                    break;
+            }
+
             default:
                 std::cout << "Invalid choice. Try again. \n";
                 break;
