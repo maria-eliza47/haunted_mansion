@@ -10,8 +10,20 @@ void Player::inspectRoom(const Room& room) const {
 }
 
 void Player::pickUpItem(const Item& item) {
+    if (item.getName() == "None") {
+        std::cout << "You can't pick that up.\n";
+        return;
+    }
+
+    for (const auto& i : inventory) {
+        if (item.getName() == i.getName()) {
+            std::cout << "Item already collected: \n" << item.getName() <<  "\n";
+            return;
+        }
+    }
+
     inventory.push_back(item);
-    std::cout << name << " picked up " << item.getName() << "!\n";
+    std::cout << "You picked up " << item.getName() << "!\n";
 }
 
 void Player::useItem(const std::string& itemName) {

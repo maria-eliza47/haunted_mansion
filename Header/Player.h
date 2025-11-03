@@ -19,6 +19,14 @@ public:
     void pickUpItem(const Item& item);
     void useItem(const std::string& itemName);
     void showInventory() const;
+
+    bool hasItem(const std::string& itemName) const {
+        for (const auto& i : inventory) {
+            if (i.getName() == itemName)
+                return true;
+        }
+        return false;
+    }
 };
 
 #endif

@@ -54,6 +54,7 @@ bool gameRunning = true;
         switch (choice) {
             case 1:
                 player.inspectRoom(*currentRoom);
+                currentRoom->setExplored(true);
 
                 if (currentRoom->hasGhost()) {
                     Ghost ghost = currentRoom->getGhost();
@@ -81,11 +82,25 @@ bool gameRunning = true;
                     break;
                 }
                 case 2: {
+                    if (!currentRoom->hasBeenExplored()) {
+                        std::cout << "Hint: You should look around before picking up items.\n";
+                        break;
+                    }
                     std::cout << "Enter the item name you want to pick up: ";
                     std::string itemName;
                     std::getline(std::cin, itemName);
-                    player.pickUpItem(Item(itemName, "You found this in the " + currentRoom->getName(), true));
-                    std::cout << "You picked up " << itemName << "!\n";
+
+                    if (player.hasItem(itemName)) {
+                        std::cout << "Item already collected: " << itemName << "\n";
+                        break;
+                    }
+                    if (currentRoom->hasItem(itemName)) {
+                        Item found = currentRoom->takeItem(itemName);
+                        player.pickUpItem(found);
+                    }
+                    else {
+                        std::cout << "There is no item named \"" << itemName << "\" in the room.\n";
+                    }
                     break;
                 }
                 case 3: {
@@ -100,7 +115,7 @@ bool gameRunning = true;
                         std::cout << "The key unlocks a hidden passage in the basement!\n";
                     } else if (itemName == "Amulet" && currentRoom->getName() == "Basement") {
                         std::cout << "The amulet glows brightly! The whispers stop...\n";
-                        std::cout << "You feel peace. You've broken the mansion's curse\n";
+                        std::cout << "You feel peace. You've broken the mansion'sjhngbfvd curse\n";
                         std::cout << "\n CONGRATULATIONS, " << playerName << "! You survived the Haunted Mansion!  YEYYYYYYYYY\n";
                         gameRunning = false;
                     }
