@@ -21,6 +21,8 @@ int main() {
     Room library("Library", "A dusty and dark room filled with ancient books");
     Room basement("Basement", "Cold and dark room, underneath the house where you can hear a lot of strange noises");
 
+    basement.setLocked(true);
+
     hallway.addItem(key);
     hallway.addItem(candle);
     basement.addItem(amulet);
@@ -112,7 +114,7 @@ bool gameRunning = true;
                     std::cout << "Enter the item name to use: ";
                     std::string itemName;
                     std::getline(std::cin, itemName);
-                    if (player.hasItem(itemName)) {
+                    if (!player.hasItem(itemName)) {
                         std::cout << "You don't have an item called: " << itemName << "in your inventory.\n";
                         break;
                     }
@@ -122,41 +124,49 @@ bool gameRunning = true;
                         std::cout << "The candle flickers, revealing symbols on the wall...\n";
                     }
                     else if (itemName == "Old Key") {
-                        if (currentRoom->getName() == "Basement") {
-                            std::cout << "The key unlocks a hidden passage in the basement!\n";
-                        }
-                        else {
-                            std::cout << "You try the key, but nothing nearby seems to fit, maybe try in a different room ;)))";
-
+                        if (currentRoom->getName() == "Hallway") {
+                            std::cout << "You hear a click echo from the distance... A door has unlocked somewhere.\n";
+                            basement.setLocked(false);
+                        } else {
+                            std::cout << "You try the key, but nothing nearby seems to fit.\n";
                         }
                     }
-
-                     else if (itemName == "Amulet") {
-                         if (currentRoom->getName() == "Basement") {
-                             std::cout << "The amulet glows brightly! The whispers stop...\n";
-                             std::cout << "You feel peace. You've broken the mansion'sjhngbfvd curse\n";
-                             std::cout << "\n CONGRATULATIONS, " << playerName << "! You survived the Haunted Mansion!  YEYYYYYYYYY\n";
-                             gameRunning = false;
-                         }
-                         else {
-                             std::cout <<"The amulet glows faintly but nothing happened here...\n";
-                         }
-                     }
-                     else {
-                         std::cout << "Nothing happens when you try to use the " << itemName << ".\n";
-                     }
+                    else if (itemName == "Amulet") {
+                        if (currentRoom->getName() == "Basement") {
+                            std::cout << "The amulet glows brightly! The whispers stop...\n";
+                            std::cout << "You feel peace. You've broken the mansion's curse.\n";
+                            std::cout << "\nCONGRATULATIONS, " << playerName << "! You survived the Haunted Mansion! YEYYYYYYYYY\n";
+                            gameRunning = false;
+                        } else {
+                            std::cout << "The amulet glows faintly but nothing happens here...\n";
+                        }
+                    }
+                    else {
+                        std::cout << "Nothing happens when you try to use the " << itemName << ".\n";
+                    }
                     break;
+
                 }
                 case 4: {
                     std::cout << "Where do you want to go? (hallway / library / basement)\n> ";
                     std::string roomName;
                     std::getline(std::cin, roomName);
 
-                    if (roomName == "hallway") currentRoom = &hallway;
-                    else if (roomName == "library") currentRoom = &library;
-                    else if (roomName == "basement") currentRoom = &basement;
-                    else std::cout << "That room doesn’t exist...\n";
+                    Room* nextRoom = nullptr;
 
+                    if (roomName == "hallway") nextRoom = &hallway;
+                    else if (roomName == "library") nextRoom = &library;
+                    else if (roomName == "basement") nextRoom = &basement;
+                    else {
+                        std::cout << "That room doesn’t exist...\n";
+                        break;
+                    }
+                    if (nextRoom->isLocked()) {
+                        std::cout << "The door to the " << nextRoom->getName() << " is locked.\n";
+                        break;
+                    }
+
+                    currentRoom = nextRoom;
                     std::cout << "\nMoving to " << currentRoom->getName() << "...\n";
                     player.inspectRoom(*currentRoom);
                     break;

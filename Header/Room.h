@@ -14,6 +14,7 @@ private:
     bool ghostPresent;
     Ghost ghost;
     bool explored = false;
+    bool locked = false;
 
 public:
     Room(const std::string& n, const std::string& d);
@@ -29,6 +30,9 @@ public:
 
     bool hasBeenExplored() const { return explored; }
     void setExplored(bool val) { explored = val; }
+
+    bool isLocked() const { return locked; }
+    void setLocked(bool state) { locked = state; }
 
     bool hasItem( const std::string& itemName) const {
         for (const auto& item : items) {
