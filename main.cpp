@@ -118,7 +118,7 @@ bool gameRunning = true;
 
             Ghost ghost = currentRoom->getGhost();
             std::cout << "A gentle figure appears... " << ghost.getName() << " smiles softly.\n";
-            std::cout << "\"Welcome, traveler. I’ve been waiting for you.\"\n";
+            std::cout << "\"Welcome, traveler. I've been waiting for you.\"\n";
             std::cout << "Do you (1) Listen or (2) Interrupt?\n> ";
             int talk;
             std::cin >> talk;
@@ -305,11 +305,11 @@ bool gameRunning = true;
             }
             case 9: {
                     std::cout << "\n=== MANSION MAP ===\n";
-                    std::cout << "[Hallway] --- [Library]\n";
+                    std::cout << "[Hallway] --- [Basement]\n";
                     std::cout << "    |\n";
-                    std::cout << " [Basement]\n";
+                    std::cout << " [Library]\n";
                     if (atticDiscovered) {
-                        std::cout << "    ↑\n";
+                        std::cout << "    |\n";
                         std::cout << "  [Attic]\n";
                     }
                     std::cout << "===================\n";
