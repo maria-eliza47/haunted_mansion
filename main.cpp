@@ -31,6 +31,20 @@ int main() {
     Room hallway("Hallway", "A long corridor with broken mirrors.");
     Room library("Library", "A dusty and dark room filled with ancient books");
     Room basement("Basement", "Cold and dark room, underneath the house where you can hear a lot of strange noises");
+    Room attic("Attic", "A dusty attic filled with forgotten memories, what could it possibly hide?");
+    bool stairsFound = false;
+    bool atticDiscovered = false;
+
+    Item spellbook("Spellbook", "Ancient spells that might protect you from the evil and mistery in this mansion.", true );
+    Item silverDagger("Silver Dagger", "A sharp blade that could be used as a weapon against potential enemies.", true);
+    Item tonic("Healing Tonic", "A potion that restores your energy.", true );
+
+    library.addItem(spellbook);
+    basement.addItem(tonic);
+    //attic.addItem(silverDagger);
+
+    Ghost kindSpirit("Casper the Friendly Ghost", "A kind and friendly spirit that watches over lost souls wanting to help them.", false);
+    attic.setGhost(kindSpirit);
 
     basement.setLocked(true);
 
@@ -69,7 +83,7 @@ bool gameRunning = true;
         if (!(std::cin >> choice)) {
             std::cin.clear();
             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // curăță restul liniei
-            std::cout << "Invalid input. Please enter a number between 1 and 5.\n";
+            std::cout << "Invalid input. Please enter a number between 1 and 9.\n";
             continue;
         }
 
@@ -79,6 +93,54 @@ bool gameRunning = true;
             case 1:
                 player.inspectRoom(*currentRoom);
                 currentRoom->setExplored(true);
+                if (currentRoom == &library && !stairsFound) {
+
+                    if (player.hasItem("Candle")) {
+                        std::cout << "As the candlelight flickers, a hidden passage reveals itself behind a bookshelf...\n";
+                        std::cout << "A spiral staircase leads upward into darkness.\n";
+                        std::cout << "Do you (1) Ignore it or (2) Go up the stairs?\n> ";
+
+        int stairChoice;
+        if (!(std::cin >> stairChoice)) {
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            stairChoice = 1;
+        }
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+        if (stairChoice == 2) {
+            std::cout << "You push aside the heavy bookshelf and begin climbing...\n";
+            stairsFound = true;
+            atticDiscovered = true;
+            mansion.addRoom(attic);
+            currentRoom = &attic;
+            std::cout << "\nYou arrive in the " << currentRoom->getName() << ".\n";
+
+            Ghost ghost = currentRoom->getGhost();
+            std::cout << "A gentle figure appears... " << ghost.getName() << " smiles softly.\n";
+            std::cout << "\"Welcome, traveler. I’ve been waiting for you.\"\n";
+            std::cout << "Do you (1) Listen or (2) Interrupt?\n> ";
+            int talk;
+            std::cin >> talk;
+            std::cin.ignore();
+
+            if (talk == 1) {
+                std::cout << "\"The light reveals the truth. Seek the symbol below, and the path shall open...\"\n";
+                std::cout << "You feel something change around you...\n";
+            } else {
+                std::cout << "Her smile fades. The attic grows cold... The air shifts ominously.\n";
+                std::cout << "A dark presence seems to awaken somewhere nearby.\n";
+            }
+
+        } else {
+            std::cout << "You decide to leave the staircase untouched... for now.\n";
+            stairsFound = true;
+        }
+    } else {
+        std::cout << "It’s too dark to notice anything unusual... Maybe a light source would help.\n";
+    }
+}
+
 
                 if (currentRoom->hasGhost()) {
                     Ghost ghost = currentRoom->getGhost();
@@ -163,6 +225,19 @@ bool gameRunning = true;
                             std::cout << "The amulet glows faintly but nothing happens here...\n";
                         }
                     }
+                    else if (itemName == "Spellbook") {
+                        if (currentRoom == &library || currentRoom == &attic) {
+                            std::cout << "You whisper the words from the Spellbook. The air trembles slightly...\n";
+                        } else {
+                            std::cout << "The pages flutter silently. Nothing happens here.\n";
+                        }
+                    }
+                    else if (itemName == "Healing Tonic") {
+                        std::cout << "You drink the tonic. Warmth spreads through your body and you feel refreshed.\n";
+                    }
+                    else if (itemName == "Silver Dagger") {
+                        std::cout << "You hold the dagger tight. It hums faintly in your hand.\n";
+                    }
                     else {
                         std::cout << "Nothing happens when you try to use the " << itemName << ".\n";
                     }
@@ -170,7 +245,10 @@ bool gameRunning = true;
 
                 }
                 case 4: {
-                    std::cout << "Where do you want to go? (hallway / library / basement)\n> ";
+                    std::cout << "Where do you want to go? (hallway / library / basement";
+                    if (atticDiscovered) std::cout << " / attic";
+                    std::cout << ")\n> ";
+
                     std::string roomName;
                     std::getline(std::cin, roomName);
 
@@ -179,16 +257,12 @@ bool gameRunning = true;
                     if (roomName == "hallway") nextRoom = &hallway;
                     else if (roomName == "library") nextRoom = &library;
                     else if (roomName == "basement") nextRoom = &basement;
+                    else if (roomName == "attic" && atticDiscovered) nextRoom = &attic;
                     else {
                         std::cout << "That room doesn’t exist...\n";
                         break;
                     }
-                    if (nextRoom->isLocked()) {
-                        std::cout << "The door to the " << nextRoom->getName() << " is locked.\n";
-                        break;
-                    }
-
-                    currentRoom = nextRoom;
+                    currentRoom =nextRoom;
                     std::cout << "\nMoving to " << currentRoom->getName() << "...\n";
                     player.inspectRoom(*currentRoom);
                     break;
@@ -234,6 +308,10 @@ bool gameRunning = true;
                     std::cout << "[Hallway] --- [Library]\n";
                     std::cout << "    |\n";
                     std::cout << " [Basement]\n";
+                    if (atticDiscovered) {
+                        std::cout << "    ↑\n";
+                        std::cout << "  [Attic]\n";
+                    }
                     std::cout << "===================\n";
                     break;
             }
