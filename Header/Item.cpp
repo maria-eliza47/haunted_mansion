@@ -8,7 +8,7 @@ Item::Item(const std::string& n, const std::string& d, bool u)
 Item::~Item() {}
 
 const std::string& Item::getName() const { return name; }
-// cppcheck-suppress constFunction
+
 const std::string& Item::getDescription() const { return description; }
 bool Item::isUsable() const { return usable; }
 
