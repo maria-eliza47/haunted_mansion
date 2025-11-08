@@ -303,8 +303,7 @@ void Game::actUseItem() {
 
 void Game::unlockBasementIfKeyUsedInHallway() {
     if (currentRoom->getName() == "Hallway") {
-        std::cout << "You hear a click echo from the distance... A door has unlocked somewhere.\n";
-        basement.setLocked(false);
+        std::cout << "You are very close, try checking the map to see what room near by could be unlocked by this key that you have.\n";
     } else {
         std::cout << "You try the key, but nothing nearby seems to fit.\n";
     }
@@ -323,31 +322,90 @@ void Game::tryEndGameWithAmuletInBasement() {
 }
 
 void Game::actMove() {
-    std::cout << "Where do you want to go? (hallway / library / basement";
-    if (atticDiscovered) std::cout << " / attic";
-    std::cout << ")\n> ";
-
+    std::cout << "Where do you want to go?\n";
+    if (currentRoom == &hallway) {
+        std::cout << "(library / basement)\n> ";
+    } else if (currentRoom == &library) {
+        std::cout << "(hallway";
+        if (atticDiscovered) std::cout << " / attic";
+        std::cout << ")\n> ";
+    } else if (currentRoom == &attic) {
+        std::cout << "(library)\n> ";
+    } else if (currentRoom == &basement) {
+        std::cout << "(hallway)\n> ";
+    }
     std::string roomName;
     std::getline(std::cin, roomName);
-
     Room* nextRoom = nullptr;
-
-    if (roomName == "hallway") nextRoom = &hallway;
-    else if (roomName == "library") nextRoom = &library;
-    else if (roomName == "basement") nextRoom = &basement;
-    else if (roomName == "attic" && atticDiscovered) nextRoom = &attic;
-    else {
-        std::cout << "That room doesn’t exist...\n";
-        return;
+    if (currentRoom == &hallway) {
+        if (roomName == "library") {
+            std::cout << "Walking down the corridor... entering the Library.\n";
+            nextRoom = &library;
+        }
+        else if (roomName == "basement") {
+            if (basement.isLocked()) {
+                if (player.hasItem("Old Key")) {
+                    std::cout << "The basement door is locked. Use the Old Key to unlock it? (1 = Yes / 2 = No)\n> ";
+                    int choice;
+                    if (!readIntSafe(choice)) choice = 2;
+                    if (choice == 1) {
+                        basement.setLocked(false);
+                        std::cout << "You unlock the heavy door... Descending slowly into the basement.\n";
+                        nextRoom = &basement;
+                    } else {
+                        std::cout << "You step back from the cold door.\n";
+                        return;
+                    }
+                } else {
+                    std::cout << "The basement door is locked. You might need a key.\n";
+                    return;
+                }
+            } else {
+                std::cout << "You descend the creaking stairs... entering the Basement.\n";
+                nextRoom = &basement;
+            }
+        }
+        else {
+            std::cout << "You can’t go there directly from the hallway.\n";
+            return;
+        }
     }
-
-    if (nextRoom == &basement && basement.isLocked()) {
-        std::cout << "The basement door is locked. Maybe a key would help.\n";
-        return;
+    else if (currentRoom == &library) {
+        if (roomName == "hallway") {
+            std::cout << "Walking through the dusty corridor... back to the Hallway.\n";
+            nextRoom = &hallway;
+        }
+        else if (roomName == "attic" && atticDiscovered) {
+            std::cout << "You push the old shelf aside and climb the narrow stairs...\n";
+            nextRoom = &attic;
+        }
+        else {
+            std::cout << "That direction doesn’t seem to make sense.\n";
+            return;
+        }
     }
-
-    currentRoom = nextRoom;
-    std::cout << "\nMoving to " << currentRoom->getName() << "...\n";
+    else if (currentRoom == &attic) {
+        if (roomName == "library") {
+            std::cout << "You climb down the creaking stairs... back to the Library.\n";
+            nextRoom = &library;
+        } else {
+            std::cout << "You can only descend back to the Library.\n";
+            return;
+        }
+    }
+    else if (currentRoom == &basement) {
+        if (roomName == "hallway") {
+            std::cout << "You climb the damp stone steps... returning to the Hallway.\n";
+            nextRoom = &hallway;
+        } else {
+            std::cout << "You can only go back up to the Hallway.\n";
+            return;
+        }
+    }
+    if (nextRoom) {
+        currentRoom = nextRoom;
+        std::cout << "\nYou are now in the " << currentRoom->getName() << ".\n";
+    }
 }
 
 void Game::actExit() {
