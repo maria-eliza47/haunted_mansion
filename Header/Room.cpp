@@ -23,13 +23,16 @@ const Ghost& Room::getGhost() const {
 
 void Room::describe() const {
     std::cout << "Room: " << name << "\n" << description << "\n";
-    if (ghostPresent) std::cout << "A ghost haunts this room...\n";
+
+    if (ghostPresent) {
+        ghost.haunt();
+        std::cout << "A ghost haunts this room...\n";
+    }
+
     std::cout << "Items:\n";
     for (const auto& item : items) {
         std::cout << " - " << item.getName() << "\n";
     }
-
-
 }
 std::ostream& operator<<(std::ostream& os, const Room& r) {
     os << "Room: " << r.name << "\n" << r.description << "\n";
