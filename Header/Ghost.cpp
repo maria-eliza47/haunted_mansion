@@ -40,7 +40,7 @@ const std::string& Ghost::getName() const {
 }
 
 std::ostream& operator<<(std::ostream& os, const Ghost& g) {
-    os << " Ghost: " << g.name << " - " << g.description
-       << (g.hostile ? " (Hostile)" : " (Friendly)");
+    os << "Ghost: " << g.getName() << " - " << g.getDescription()
+       << (g.isHostile() ? " (Hostile)" : " (Friendly)");
     return os;
 }
