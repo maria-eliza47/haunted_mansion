@@ -30,8 +30,8 @@ private:
     bool casperMet;
     bool casperAngry;
     bool goodEndingUnlocked;
-    bool neutralEndingUnlocked;
-    bool badEndingUnlocked;
+    //bool neutralEndingUnlocked;
+    //bool badEndingUnlocked;
 
     void printIntro();
     void setupWorld();
