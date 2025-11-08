@@ -1,2 +1,17 @@
+Maria
+1
+2
+Candle
+4
+library
+1
+2
+Old Key
+3
+Old Key
+4
+basement
+3
+Amulet
 5
-11 22 33 44 55
+

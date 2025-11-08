@@ -20,6 +20,8 @@ Game::Game()
 }
 
 void Game::run() {
+   // freopen("tastatura.txt", "r", stdin);
+
     printIntro();
 
     std::string playerName;
