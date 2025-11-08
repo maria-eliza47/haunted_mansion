@@ -38,7 +38,7 @@ void Game::run() {
 
     currentRoom = &hallway;
 
-    while (gameRunning) {
+    while (gameRunning && !std::cin.eof()) {
         std::cout << "\n You are now in the " << currentRoom->getName() << ".\n";
         showMenu();
 
