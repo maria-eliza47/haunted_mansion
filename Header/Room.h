@@ -52,6 +52,7 @@ public:
         }
         return Item("None", "Invalid item", false);
     }
+    friend std::ostream& operator<<(std::ostream& os, const Room& r);
 };
 
 #endif

@@ -55,6 +55,8 @@ add_executable(${MAIN_EXECUTABLE_NAME}
         Header/Ghost.cpp
         Header/Mansion.cpp
         Header/Item.cpp
+        Header/Game.h
+        Header/Game.cpp
 )
 include_directories(${CMAKE_SOURCE_DIR}/Header)
 # NOTE: Add all defined targets (e.g. executables, libraries, etc. )

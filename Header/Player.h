@@ -27,6 +27,7 @@ public:
         }
         return false;
     }
+    friend std::ostream& operator<<(std::ostream& os, const Player& p);
 };
 
 #endif

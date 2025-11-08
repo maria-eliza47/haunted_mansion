@@ -14,3 +14,9 @@ void Mansion::describe() const {
         std::cout << "-----------------------\n";
     }
 }
+std::ostream& operator<<(std::ostream& os, const Mansion& m) {
+    os << "===== Mansion Overview =====\n";
+    for (const auto& room : m.rooms)
+        os << room << "\n-----------------------\n";
+    return os;
+}

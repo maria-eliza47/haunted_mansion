@@ -41,3 +41,13 @@ void Player::showInventory() const {
     for (const auto& i : inventory)
         std::cout << " - " << i << "\n";
 }
+std::ostream& operator<<(std::ostream& os, const Player& p) {
+    os << "Player: " << p.name << "\nInventory:\n";
+    if (p.inventory.empty()) {
+        os << " (empty)\n";
+    } else {
+        for (const auto& item : p.inventory)
+            os << "  - " << item << "\n";
+    }
+    return os;
+}

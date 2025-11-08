@@ -28,4 +28,19 @@ void Room::describe() const {
     for (const auto& item : items) {
         std::cout << " - " << item.getName() << "\n";
     }
+
+
+}
+std::ostream& operator<<(std::ostream& os, const Room& r) {
+    os << "Room: " << r.name << "\n" << r.description << "\n";
+    if (r.ghostPresent)
+        os << " Haunted by: " << r.ghost.getName() << "\n";
+    if (!r.items.empty()) {
+        os << " Items in this room:\n";
+        for (const auto& item : r.items)
+            os << "  - " << item << "\n";
+    } else {
+        os << " No items here.\n";
+    }
+    return os;
 }
