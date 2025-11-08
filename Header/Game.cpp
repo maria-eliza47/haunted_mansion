@@ -14,8 +14,8 @@ Game::Game()
       casperMet(false),
       casperAngry(false),
       goodEndingUnlocked(false),
-      neutralEndingUnlocked(false),
-      badEndingUnlocked(false)
+      //neutralEndingUnlocked(false),
+      //badEndingUnlocked(false)
 {
 }
 
