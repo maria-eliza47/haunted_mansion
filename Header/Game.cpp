@@ -13,12 +13,11 @@ Game::Game()
       atticDiscovered(false),
       casperMet(false),
       casperAngry(false),
-      goodEndingUnlocked(false),
+      goodEndingUnlocked(false)
       //neutralEndingUnlocked(false),
       //badEndingUnlocked(false)
 {
 }
-
 void Game::run() {
    // freopen("tastatura.txt", "r", stdin);
 
