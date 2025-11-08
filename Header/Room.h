@@ -25,7 +25,7 @@ public:
     void addItem(const Item& item);
     void setGhost(const Ghost& g);
     bool hasGhost() const;
-    Ghost getGhost() const;
+    const Ghost& getGhost() const;
     void describe() const;
 
     bool hasBeenExplored() const { return explored; }

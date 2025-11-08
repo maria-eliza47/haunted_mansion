@@ -55,7 +55,7 @@ void Game::run() {
     //std::cout << "\nDEBUG:\n" << player;
 
 
-    std::cout << "\n Sfarsit Haunted Mansion  \n";
+    std::cout << "\n Sfarsit Haunted Mansion  \n" << "You gave up pretty fast, the mansion is waiting for you to try again....\n" << "Later, Traveler!\n";
 }
 
 void Game::printIntro() {

@@ -17,7 +17,7 @@ bool Room::hasGhost() const {
     return ghostPresent;
 }
 
-Ghost Room::getGhost() const {
+const Ghost& Room::getGhost() const {
     return ghost;
 }
 
