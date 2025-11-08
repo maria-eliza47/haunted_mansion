@@ -9,6 +9,7 @@ Item::~Item() {}
 
 const std::string& Item::getName() const { return name; }
 // cppcheck-suppress constFunction
+// Assuming 'description' is a class member of type std::string
 const std::string& Item::getDescription() const { return description; }
 bool Item::isUsable() const { return usable; }
 
