@@ -366,7 +366,7 @@ void Game::actMove() {
             }
         }
         else {
-            std::cout << "You can’t go there directly from the hallway.\n";
+            std::cout << "You can't go there directly from the hallway.\n";
             return;
         }
     }
@@ -380,7 +380,7 @@ void Game::actMove() {
             nextRoom = &attic;
         }
         else {
-            std::cout << "That direction doesn’t seem to make sense.\n";
+            std::cout << "That direction doesn't seem to make sense.\n";
             return;
         }
     }
