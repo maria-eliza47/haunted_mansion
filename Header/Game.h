@@ -7,6 +7,13 @@
 #include "Player.h"
 #include "Ghost.h"
 #include "Mansion.h"
+#include <memory>
+#include <vector>
+#include "Interactions/Interaction.h"
+#include "Interactions/ItemInteraction.h"
+#include "Interactions/GhostInteraction.h"
+#include "Interactions/RoomInteraction.h"
+
 
 class Game {
 public:
@@ -14,6 +21,8 @@ public:
     void run();
 
 private:
+    std::vector<std::unique_ptr<Interaction>> interactions;
+
     Mansion mansion;
     Room hallway;
     Room library;
@@ -52,10 +61,15 @@ private:
     void actHelp();
     void actRules();
     void actMap();
-
+    void interactWithCasper();
     void handleLibraryStairsScene();
     void unlockBasementIfKeyUsedInHallway();
     void tryEndGameWithAmuletInBasement();
+    bool spellbookActivated;
+    bool spellbookRead;
+    bool premiumItemGiven;
+
+
 
     bool readIntSafe(int& out);
 };

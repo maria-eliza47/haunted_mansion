@@ -57,6 +57,14 @@ add_executable(${MAIN_EXECUTABLE_NAME}
         Header/Item.cpp
         Header/Game.h
         Header/Game.cpp
+        Header/Interactions/Interaction.h
+        Header/Interactions/Interaction.cpp
+        Header/Interactions/ItemInteraction.h
+        Header/Interactions/ItemInteraction.cpp
+        Header/Interactions/GhostInteraction.h
+        Header/Interactions/GhostInteraction.cpp
+        Header/Interactions/RoomInteraction.h
+        Header/Interactions/RoomInteraction.cpp
 )
 include_directories(${CMAKE_SOURCE_DIR}/Header)
 # NOTE: Add all defined targets (e.g. executables, libraries, etc. )

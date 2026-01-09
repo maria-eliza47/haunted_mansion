@@ -13,7 +13,11 @@ Game::Game()
       atticDiscovered(false),
       casperMet(false),
       casperAngry(false),
-      goodEndingUnlocked(false)
+      goodEndingUnlocked(false),
+      spellbookActivated(false),
+      spellbookRead(false),
+      premiumItemGiven(false)
+
       //neutralEndingUnlocked(false),
       //badEndingUnlocked(false)
 {
@@ -92,6 +96,10 @@ void Game::placeItemsAndGhosts() {
     hallway.setGhost(spirit);
     library.setGhost(wraith);
     attic.setGhost(kindSpirit);
+    interactions.push_back(std::make_unique<ItemInteraction>("Candle"));
+    interactions.push_back(std::make_unique<GhostInteraction>(true));
+    interactions.push_back(std::make_unique<RoomInteraction>("Library"));
+
 }
 
 void Game::printRules() const {
@@ -189,54 +197,78 @@ void Game::actLookAround() {
             }
         }
     }
+    if (currentRoom == &attic) {
+        interactWithCasper();
+    }
+
 }
 
 void Game::handleLibraryStairsScene() {
-    if (player.hasItem("Candle")) {
-        if (!stairsFound) {
-            std::cout << "As the candlelight flickers, a hidden passage reveals itself behind a bookshelf...\n";
-            stairsFound = true;
-        }
-
-        std::cout << "A spiral staircase leads upward into darkness.\n";
-        std::cout << "Do you (1) Ignore it or (2) Go up the stairs?\n> ";
-
-        int stairChoice;
-        if (!readIntSafe(stairChoice)) stairChoice = 1;
-
-        if (stairChoice == 2) {
-            if (!atticDiscovered) {
-                std::cout << "You push aside the heavy bookshelf and begin climbing...\n";
-                atticDiscovered = true;
-                mansion.addRoom(attic);
-            }
-            currentRoom = &attic;
-            std::cout << "\nYou arrive in the " << currentRoom->getName() << ".\n";
-
-            Ghost ghost = currentRoom->getGhost();
-            std::cout << "A gentle figure appears... " << ghost.getName() << " smiles softly.\n";
-            std::cout << "\"Welcome, traveler. I've been waiting for you.\"\n";
-            std::cout << "Do you (1) Listen or (2) Interrupt?\n> ";
-
-            int talk;
-            if (!readIntSafe(talk)) talk = 1;
-
-            if (talk == 1) {
-                std::cout << "\"The light reveals the truth. Seek the symbol below, and the path shall open...\"\n";
-                std::cout << "You feel something change around you...\n";
-                casperMet = true;
-            } else {
-                std::cout << "Her smile fades. The attic grows cold... The air shifts ominously.\n";
-                std::cout << "A dark presence seems to awaken somewhere nearby.\n";
-                casperAngry = true;
-            }
-        } else {
-            std::cout << "You decide to leave the staircase untouched... for now.\n";
-        }
-    } else {
+    if (!player.hasItem("Candle")) {
         std::cout << "It is too dark to notice anything unusual... Maybe a light source would help.\n";
+        return;
+    }
+
+    if (!stairsFound) {
+        std::cout << "As the candlelight flickers, a hidden passage reveals itself behind a bookshelf...\n";
+        std::cout << "A spiral staircase leads upward into darkness.\n";
+        stairsFound = true;
+    }
+
+    std::cout << "Do you (1) Ignore the staircase or (2) Go up the stairs?\n> ";
+
+    int stairChoice;
+    if (!readIntSafe(stairChoice)) stairChoice = 1;
+
+    if (stairChoice == 1) {
+        std::cout << "You decide not to climb the stairs right now.\n";
+        return;
+    }
+
+     if (!atticDiscovered) {
+        std::cout << "You push aside the heavy bookshelf and begin climbing...\n";
+        atticDiscovered = true;
+        mansion.addRoom(attic);
+    }
+
+    currentRoom = &attic;
+    std::cout << "\nYou arrive in the Attic.\n";
+
+    // interactiunea cu Casper
+    Ghost ghost = currentRoom->getGhost();
+    std::cout << "A gentle figure appears... " << ghost.getName() << " floats before you.\n";
+
+    if (!casperMet && !casperAngry) {
+        std::cout << "\"Welcome, traveler. How will you speak to me?\"\n";
+        std::cout << "1. Speak kindly\n";
+        std::cout << "2. Stay neutral\n";
+        std::cout << "3. Insult Casper\n> ";
+
+        int talk;
+        if (!readIntSafe(talk)) talk = 2;
+
+        if (talk == 1) {
+            std::cout << "Casper smiles softly.\n";
+            std::cout << "\"Kindness still exists... You may yet escape this place.\"\n";
+            casperMet = true;
+        }
+        else if (talk == 2) {
+            std::cout << "Casper nods silently and steps aside.\n";
+            // neutral path
+        }
+        else {
+            std::cout << "Casper's expression darkens.\n";
+            std::cout << "\"Then this mansion shall be your tomb.\"\n";
+            casperAngry = true;
+            std::cout << "\n BAD ENDING \n";
+            gameRunning = false;
+        }
+    }
+    else {
+        std::cout << "Casper is still here, watching you quietly...\n";
     }
 }
+
 
 void Game::actPickItem() {
     if (!currentRoom->hasBeenExplored()) {
@@ -284,12 +316,42 @@ void Game::actUseItem() {
         tryEndGameWithAmuletInBasement();
     }
     else if (itemName == "Spellbook") {
-        if (currentRoom == &library || currentRoom == &attic) {
-            std::cout << "You whisper the words from the Spellbook. The air trembles slightly...\n";
-        } else {
-            std::cout << "The pages flutter silently. Nothing happens here.\n";
+        if (currentRoom != &attic) {
+            std::cout << "The spellbook hums faintly... This is not the right place.\n";
+            return;
+        }
+
+        if (casperAngry) {
+            std::cout << "The spellbook burns your hands!\n";
+            std::cout << "Casper's curse consumes you...\n";
+            std::cout << "\n BAD ENDING \n";
+            gameRunning = false;
+            return;
+        }
+
+        if (!spellbookRead) {
+            std::cout << "You read the ancient symbols aloud...\n";
+            std::cout << "The attic trembles. Casper turns toward you.\n";
+            spellbookRead = true;
+        }
+
+        if (casperMet && !premiumItemGiven) {
+            std::cout << "Casper smiles warmly.\n";
+            std::cout << "\"You have chosen wisdom over fear. Take this.\"\n";
+
+            Item relic("Ethereal Relic",
+                       "A powerful artifact blessed by Casper himself.",
+                       true);
+
+            player.pickUpItem(relic);
+            premiumItemGiven = true;
+        }
+        else if (!casperMet) {
+            std::cout << "A whisper echoes:\n";
+            std::cout << "\"Words alone are meaningless without kindness.\"\n";
         }
     }
+
     else if (itemName == "Healing Tonic") {
         std::cout << "You drink the tonic. Warmth spreads through your body and you feel refreshed.\n";
     }
@@ -420,9 +482,47 @@ void Game::actInventory() {
     std::cout << "=====================\n";
 }
 
-void Game::actHelp()  { printHelp();  }
+void Game::actHelp()  { printHelp();for (const auto& it : interactions) {
+    it->display();
+    it->execute(player);
+}
+}
 void Game::actRules() { printRules(); }
 void Game::actMap()   { printMap();   }
+void Game::interactWithCasper() {
+    if (!currentRoom->hasGhost()) return;
+
+    Ghost ghost = currentRoom->getGhost();
+    if (ghost.getName() != "Casper the Friendly Ghost") return;
+
+    std::cout << "\nCasper floats closer...\n";
+    std::cout << "How do you talk to him?\n";
+    std::cout << "1. Speak kindly\n";
+    std::cout << "2. Stay neutral\n";
+    std::cout << "3. Be rude\n> ";
+
+    int choice;
+    if (!readIntSafe(choice)) choice = 2;
+
+    if (choice == 1) {
+        if (!player.hasItem("Blessed Charm")) {
+            Item premium("Blessed Charm",
+                "A powerful charm gifted by Casper. It radiates warmth.", true);
+            player.pickUpItem(premium);
+        }
+        std::cout << "Casper smiles warmly and blesses you.\n";
+        casperMet = true;
+    }
+    else if (choice == 2) {
+        std::cout << "Casper nods silently and fades a little...\n";
+    }
+    else {
+        std::cout << "Casper's face twists in pain...\n";
+        std::cout << "The attic grows cold. You feel your soul tearing apart.\n";
+        std::cout << "\nBAD ENDING — You angered the only friendly spirit.\n";
+        gameRunning = false;
+    }
+}
 
 bool Game::readIntSafe(int& out) {
     if (!(std::cin >> out)) {
