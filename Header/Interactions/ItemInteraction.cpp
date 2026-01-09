@@ -1,6 +1,6 @@
 #include "ItemInteraction.h"
-#include "../Player.h"
 #include <utility>
+#include <iostream>
 
 ItemInteraction::ItemInteraction(std::string itemName)
     : item(std::move(itemName)) {}

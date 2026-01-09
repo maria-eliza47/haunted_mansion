@@ -2,7 +2,6 @@
 #define INTERACTION_H
 
 #include <memory>
-#include <string>
 #include <iostream>
 
 class Player;
@@ -12,18 +11,20 @@ public:
     Interaction() = default;
     virtual ~Interaction() = default;
 
-    virtual void execute(Player& player) = 0;
+    void play(Player& player) {
+        print();
+        execute(player);
+    }
 
-    void display() const { print(); }
+    void display() const {
+        print();
+    }
 
     virtual std::unique_ptr<Interaction> clone() const = 0;
 
-    static int count();
-
 protected:
+    virtual void execute(Player& player) = 0;
     virtual void print() const = 0;
-
-    static int interactionCount;
 };
 
 #endif

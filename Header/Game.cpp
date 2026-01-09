@@ -53,6 +53,7 @@ void Game::run() {
         }
 
         handleChoice(choice);
+
     }
    // std::cout << "\nDEBUG:\n" << mansion;
     //std::cout << "\nDEBUG:\n" << player;
@@ -70,6 +71,10 @@ void Game::setupWorld() {
     mansion.addRoom(hallway);
     mansion.addRoom(library);
     mansion.addRoom(basement);
+    interactions.clear();
+    interactions.push_back(std::make_unique<RoomInteraction>());
+    interactions.push_back(std::make_unique<ItemInteraction>("Old Key"));
+    interactions.push_back(std::make_unique<GhostInteraction>());
 }
 
 void Game::placeItemsAndGhosts() {
@@ -170,6 +175,19 @@ void Game::handleChoice(int choice) {
 
 void Game::actLookAround() {
     player.inspectRoom(*currentRoom);
+    for (auto& inter : interactions) {
+        inter->play(player);
+
+    }
+    for (auto& inter : interactions) {
+        if (auto* gi = dynamic_cast<GhostInteraction*>(inter.get())) {
+            // (momentan, doar demo)
+            // std::cout << "Dynamic cast: this is a GhostInteraction\n";
+            (void)gi;
+        }
+    }
+
+
     currentRoom->setExplored(true);
 
     if (currentRoom == &library) {
@@ -484,7 +502,8 @@ void Game::actInventory() {
 
 void Game::actHelp()  { printHelp();for (const auto& it : interactions) {
     it->display();
-    it->execute(player);
+    it->play(player);
+
 }
 }
 void Game::actRules() { printRules(); }
