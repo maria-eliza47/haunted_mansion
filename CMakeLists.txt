@@ -65,6 +65,10 @@ add_executable(${MAIN_EXECUTABLE_NAME}
         Header/Interactions/GhostInteraction.cpp
         Header/Interactions/RoomInteraction.h
         Header/Interactions/RoomInteraction.cpp
+        Header/Exceptions/GameException.h
+        Header/Exceptions/InvalidActionException.h
+        Header/Exceptions/MissingItemException.h
+        Header/Exceptions/RoomLockedException.h
 )
 include_directories(${CMAKE_SOURCE_DIR}/Header)
 # NOTE: Add all defined targets (e.g. executables, libraries, etc. )
