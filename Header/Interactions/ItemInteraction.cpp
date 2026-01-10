@@ -27,3 +27,4 @@ std::unique_ptr<Interaction> ItemInteraction::clone() const {
 
 
 // cppcheck-suppress unusedFunction
+//
