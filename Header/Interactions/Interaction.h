@@ -4,27 +4,29 @@
 #include <memory>
 #include <iostream>
 
-class Player;
+class Player; // forward declaration
 
 class Interaction {
 public:
-    Interaction() = default;
+    Interaction();
     virtual ~Interaction() = default;
 
-    void play(Player& player) {
-        print();
-        execute(player);
-    }
-
-    void display() const {
-        print();
-    }
+    // NON-virtual interface
+    void play(Player& player);
+    void display() const;
 
     virtual std::unique_ptr<Interaction> clone() const = 0;
 
+    // static
+    static int count();
+
 protected:
+
     virtual void execute(Player& player) = 0;
     virtual void print() const = 0;
+
+private:
+    static int interactionCount;
 };
 
 #endif
