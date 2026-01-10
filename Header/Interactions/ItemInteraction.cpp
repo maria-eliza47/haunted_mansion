@@ -10,10 +10,10 @@ void ItemInteraction::execute(Game& game) {
     std::cout << "Item interaction for: " << itemName << "\n";
 }
 
-bool ItemInteraction::isAvailable(const Game& game) const {
-    (void)game;
+bool ItemInteraction::isAvailable(const Game& /*game*/) const {
     return true;
 }
+
 
 void ItemInteraction::print() const {
     std::cout << "[ItemInteraction] itemName = " << itemName << "\n";
