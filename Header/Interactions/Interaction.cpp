@@ -19,4 +19,3 @@ void Interaction::play(Player& player) {
     print();
     execute(player);
 }
-
