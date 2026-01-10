@@ -7,6 +7,8 @@ CasperInteraction::CasperInteraction(std::string m)
     : mood(std::move(m)) {}
 
 void CasperInteraction::execute(Player& player) {
+    (void)player; // suppress -Werror=unused-parameter
+
     if (mood == "nice") {
         std::cout << "Casper smiles warmly and gives you a mysterious charm \n";
     } else if (mood == "neutral") {
