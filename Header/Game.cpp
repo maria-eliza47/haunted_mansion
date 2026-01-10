@@ -33,7 +33,7 @@ const std::string& Game::getCurrentRoomName() const {
 bool Game::currentRoomHasItem(const std::string& itemName) const {
     return currentRoom && currentRoom->hasItem(itemName);
 }
-
+// cppcheck-suppress unusedFunction
 bool Game::currentRoomHasGhost() const {
     return currentRoom && currentRoom->hasGhost();
 }
