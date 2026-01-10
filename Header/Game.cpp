@@ -220,27 +220,27 @@ void Game::handleChoice(int choice) {
 void Game::actLookAround() {
     player.inspectRoom(*currentRoom);
 
-    currentInteraction = std::make_unique<RoomInteraction>(currentRoom->getName());
-    currentInteraction->play(*this);
-    for (auto& inter : interactions) {
-        if (!inter->isAvailable(*this)) {
-            continue;
-        }
-        inter->play(*this);
-        if (const auto* gi = dynamic_cast<GhostInteraction*>(currentInteraction.get())) {
-            if (gi->isHostile()) {
-                std::cout << " this is a hostile ghost interaction.\n";
-            }
-        }
+    //currentInteraction = std::make_unique<RoomInteraction>(currentRoom->getName());
+    //currentInteraction->play(*this);
+    //for (auto& inter : interactions) {
+        //if (!inter->isAvailable(*this)) {
+            //continue;
+       // }
+       // inter->play(*this);
+        //if (const auto* gi = dynamic_cast<GhostInteraction*>(currentInteraction.get())) {
+            //if (gi->isHostile()) {
+                //std::cout << " this is a hostile ghost interaction.\n";
+          //  }
+      //  }
 
-    }
-    for (auto& inter : interactions) {
-        if (const auto* gi = dynamic_cast<GhostInteraction*>(inter.get())) {
+    //}
+    //for (auto& inter : interactions) {
+       // if (const auto* gi = dynamic_cast<GhostInteraction*>(inter.get())) {
             // (momentan, doar demo)
             // std::cout << "Dynamic cast: this is a GhostInteraction\n";
-            (void)gi;
-        }
-    }
+          //  (void)gi;
+       // }
+  //  }
 
 
     currentRoom->setExplored(true);
