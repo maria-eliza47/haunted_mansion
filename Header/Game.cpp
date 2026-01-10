@@ -223,6 +223,9 @@ void Game::actLookAround() {
     currentInteraction = std::make_unique<RoomInteraction>(currentRoom->getName());
     currentInteraction->play(*this);
     for (auto& inter : interactions) {
+        if (!inter->isAvailable(*this)) {
+            continue;
+        }
         inter->play(*this);
         if (const auto* gi = dynamic_cast<GhostInteraction*>(currentInteraction.get())) {
             if (gi->isHostile()) {
@@ -349,12 +352,12 @@ void Game::actPickItem() {
     std::string itemName;
     std::getline(std::cin, itemName);
 
-
     if (player.hasItem(itemName)) {
         std::cout << "Item already collected: " << itemName << "\n";
         return;
     }
-    if (currentRoom->hasItem(itemName)) {
+
+    if (currentRoomHasItem(itemName)) {
         Item found = currentRoom->takeItem(itemName);
         player.pickUpItem(found);
     } else {
@@ -556,11 +559,15 @@ void Game::actInventory() {
     std::cout << "=====================\n";
 }
 
-void Game::actHelp()  { printHelp();for (const auto& it : interactions) {
-    it->display();
-    it->play(*this);
-
-}
+void Game::actHelp() {
+    printHelp();
+    for (const auto& it : interactions) {
+        it->display();
+        if (!it->isAvailable(*this)) {
+            continue;
+        }
+        it->play(*this);
+    }
 }
 void Game::actRules() { printRules(); }
 void Game::actMap()   { printMap();   }
