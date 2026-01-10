@@ -1,7 +1,19 @@
 #include "Game.h"
+#include "Exceptions/GameException.h"
+
+#include <exception>
+#include <iostream>
 
 int main() {
-    Game game;
-    game.run();
+    try {
+        Game game;
+        game.run();
+    } catch (const GameException& e) {
+        std::cerr << "Game error: " << e.what() << '\n';
+        return 1;
+    } catch (const std::exception& e) {
+        std::cerr << "Unexpected error: " << e.what() << '\n';
+        return 1;
+    }
     return 0;
 }

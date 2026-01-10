@@ -1,6 +1,9 @@
 #include "Game.h"
 #include <iostream>
 #include <limits>
+#include "Exceptions/InvalidActionException.h"
+#include "Exceptions/MissingItemException.h"
+#include "Exceptions/RoomLockedException.h"
 
 Game::Game()
     : hallway("Hallway", "A long corridor with broken mirrors."),
@@ -52,7 +55,11 @@ void Game::run() {
             continue;
         }
 
-        handleChoice(choice);
+        try {
+            handleChoice(choice);
+        } catch (const GameException& e) {
+            std::cout << "!!!" << e.what() << "\n";
+        }
 
     }
    // std::cout << "\nDEBUG:\n" << mansion;
@@ -290,12 +297,13 @@ void Game::handleLibraryStairsScene() {
 
 void Game::actPickItem() {
     if (!currentRoom->hasBeenExplored()) {
-        std::cout << "Hint: You should look around before picking up items.\n";
-        return;
+        throw InvalidActionException("You must look around before picking up items.");
     }
+
     std::cout << "Enter the item name you want to pick up: ";
     std::string itemName;
     std::getline(std::cin, itemName);
+
 
     if (player.hasItem(itemName)) {
         std::cout << "Item already collected: " << itemName << "\n";
@@ -310,14 +318,18 @@ void Game::actPickItem() {
 }
 
 void Game::actUseItem() {
+    std::cout << "Enter the item name to use: ";
+    std::string itemName;
+    std::getline(std::cin, itemName);
+
     if (!currentRoom->hasBeenExplored()) {
         std::cout << "Hint: You should look around before using any items.\n";
         return;
     }
+    if (!player.hasItem(itemName)) {
+        throw MissingItemException("You don't have: " + itemName);
+    }
 
-    std::cout << "Enter the item name to use: ";
-    std::string itemName;
-    std::getline(std::cin, itemName);
     if (!player.hasItem(itemName)) {
         std::cout << "You don't have an item called: " << itemName << "in your inventory.\n";
         return;
@@ -439,6 +451,9 @@ void Game::actMove() {
                 } else {
                     std::cout << "The basement door is locked. You might need a key.\n";
                     return;
+                }
+                if (basement.isLocked() && !player.hasItem("Old Key")) {
+                    throw RoomLockedException("Basement is locked. Find the Old Key first.");
                 }
             } else {
                 std::cout << "You descend the creaking stairs... entering the Basement.\n";
