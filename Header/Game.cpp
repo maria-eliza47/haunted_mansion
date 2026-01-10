@@ -29,7 +29,7 @@ Game::Game()
 const std::string& Game::getCurrentRoomName() const {
     return currentRoom ? currentRoom->getName() : hallway.getName();
 }
-
+// cppcheck-suppress unusedFunction
 bool Game::currentRoomHasItem(const std::string& itemName) const {
     return currentRoom && currentRoom->hasItem(itemName);
 }
