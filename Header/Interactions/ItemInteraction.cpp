@@ -9,11 +9,11 @@ void ItemInteraction::execute(Game& game) {
     (void)game;
     std::cout << "Item interaction for: " << itemName << "\n";
 }
-// cppcheck-suppress unusedParameter
-bool ItemInteraction::isAvailable(const Game& game) const {
-    (void)game;
+// cppcheck-suppress unusedFunction
+bool ItemInteraction::isAvailable(const Game& [[maybe_unused]] game) const {
     return true;
 }
+
 
 void ItemInteraction::print() const {
     std::cout << "[ItemInteraction] itemName = " << itemName << "\n";
