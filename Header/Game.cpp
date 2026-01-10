@@ -26,6 +26,23 @@ Game::Game()
       //badEndingUnlocked(false)
 {
 }
+const std::string& Game::getCurrentRoomName() const {
+    return currentRoom ? currentRoom->getName() : hallway.getName();
+}
+
+bool Game::currentRoomHasItem(const std::string& itemName) const {
+    return currentRoom && currentRoom->hasItem(itemName);
+}
+
+bool Game::currentRoomHasGhost() const {
+    return currentRoom && currentRoom->hasGhost();
+}
+
+bool Game::playerHasFlag(const std::string& flag) const {
+    (void)flag;
+
+    return false;
+}
 void Game::run() {
    // freopen("tastatura.txt", "r", stdin);
 
@@ -204,9 +221,9 @@ void Game::actLookAround() {
     player.inspectRoom(*currentRoom);
 
     currentInteraction = std::make_unique<RoomInteraction>(currentRoom->getName());
-    currentInteraction->play(player);
+    currentInteraction->play(*this);
     for (auto& inter : interactions) {
-        inter->play(player);
+        inter->play(*this);
         if (const auto* gi = dynamic_cast<GhostInteraction*>(currentInteraction.get())) {
             if (gi->isHostile()) {
                 std::cout << " this is a hostile ghost interaction.\n";
@@ -541,7 +558,7 @@ void Game::actInventory() {
 
 void Game::actHelp()  { printHelp();for (const auto& it : interactions) {
     it->display();
-    it->play(player);
+    it->play(*this);
 
 }
 }

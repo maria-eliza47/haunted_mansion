@@ -11,11 +11,9 @@ int Interaction::count() {
     return interactionCount;
 }
 
-void Interaction::display() const {
-    print();
-}
+//void Interaction::display() const {
+  //  print();}
 
-void Interaction::play(Player& player) {
-    print();
-    execute(player);
-}
+//void Interaction::play(Player& player) {
+   // print();
+    //execute(player);}

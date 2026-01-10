@@ -1,6 +1,8 @@
 #include "GhostInteraction.h"
 #include "../Player.h"
 #include <iostream>
+#include "../Game.h"
+
 
 GhostInteraction::GhostInteraction(bool h) : hostile(h) {}
 
@@ -8,7 +10,7 @@ std::unique_ptr<Interaction> GhostInteraction::clone() const {
     return std::make_unique<GhostInteraction>(*this);
 }
 
-void GhostInteraction::execute(Player&) {
+void GhostInteraction::execute(Game&) {
     if (hostile) {
         std::cout << "The ghost attacks your mind... you feel weaker.\n";
     } else {
@@ -18,4 +20,7 @@ void GhostInteraction::execute(Player&) {
 
 void GhostInteraction::print() const {
     std::cout << "[GhostInteraction] hostile = " << (hostile ? "true" : "false") << "\n";
+}
+bool GhostInteraction::isAvailable(const Game& game) const {
+    return game.currentRoomHasGhost();
 }

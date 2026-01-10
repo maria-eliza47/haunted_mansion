@@ -19,6 +19,11 @@ class Game {
 public:
     Game();
     void run();
+    const std::string& getCurrentRoomName() const;
+    bool currentRoomHasItem(const std::string& itemName) const;
+    bool currentRoomHasGhost() const;
+    bool playerHasFlag(const std::string& flag) const;
+
 
 private:
     std::vector<std::unique_ptr<Interaction>> interactions;

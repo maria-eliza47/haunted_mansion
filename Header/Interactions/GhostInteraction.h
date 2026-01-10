@@ -2,7 +2,7 @@
 #define GHOST_INTERACTION_H
 
 #include "Interaction.h"
-
+class Game;
 class GhostInteraction : public Interaction {
 public:
     explicit GhostInteraction(bool hostile);
@@ -11,11 +11,13 @@ public:
     bool isHostile() const { return hostile; }
 
 protected:
-    void execute(Player& player) override;
+    void execute(Game& game) override;
     void print() const override;
 
 private:
     bool hostile;
+    bool isAvailable(const Game& game) const override;
+
 };
 
 #endif

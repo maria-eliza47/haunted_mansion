@@ -1,29 +1,27 @@
-#ifndef INTERACTION_H
-#define INTERACTION_H
+#ifndef OOP_INTERACTION_H
+#define OOP_INTERACTION_H
 
 #include <memory>
-#include <iostream>
 
-class Player; // forward declaration
+class Game;
 
 class Interaction {
 public:
     Interaction();
     virtual ~Interaction() = default;
 
-    // NON-virtual interface
-    void play(Player& player);
-    void display() const;
-
-    virtual std::unique_ptr<Interaction> clone() const = 0;
-
-    // static
     static int count();
 
-protected:
+    void play(Game& game) {
+        execute(game);
+    }
 
-    virtual void execute(Player& player) = 0;
+    void display() const { print(); }
+
+    virtual void execute(Game& game) = 0;
+    virtual bool isAvailable(const Game& game) const { (void)game; return true; }
     virtual void print() const = 0;
+    virtual std::unique_ptr<Interaction> clone() const = 0;
 
 private:
     static int interactionCount;
