@@ -10,6 +10,7 @@
 #include <memory>
 #include <vector>
 #include "Interactions/Interaction.h"
+#include "Interactions/CasperInteraction.h"
 #include "Interactions/ItemInteraction.h"
 #include "Interactions/GhostInteraction.h"
 #include "Interactions/RoomInteraction.h"

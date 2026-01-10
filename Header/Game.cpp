@@ -5,6 +5,7 @@
 #include "Exceptions/MissingItemException.h"
 #include "Exceptions/RoomLockedException.h"
 
+
 Game::Game()
     : hallway("Hallway", "A long corridor with broken mirrors."),
       library("Library", "A dusty and dark room filled with ancient books"),
@@ -90,6 +91,11 @@ void Game::setupWorld() {
     mansion.addRoom(basement);
 
     interactions.clear();
+
+    interactions.push_back(
+    std::make_unique<CasperInteraction>("nice")
+);
+
 
     interactions.push_back(std::make_unique<RoomInteraction>(hallway.getName()));
 

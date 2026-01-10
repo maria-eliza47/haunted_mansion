@@ -69,6 +69,8 @@ add_executable(${MAIN_EXECUTABLE_NAME}
         Header/Exceptions/InvalidActionException.h
         Header/Exceptions/MissingItemException.h
         Header/Exceptions/RoomLockedException.h
+        Header/Interactions/CasperInteraction.h
+        Header/Interactions/CasperInteraction.cpp
 )
 include_directories(${CMAKE_SOURCE_DIR}/Header)
 # NOTE: Add all defined targets (e.g. executables, libraries, etc. )
