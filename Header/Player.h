@@ -12,8 +12,13 @@ private:
     std::vector<Item> inventory;
 
 public:
+
     Player();
     explicit Player(const std::string& n);
+    Player(const Player& other);
+    Player& operator=(Player other);
+    friend void swap(Player& a, Player& b) noexcept;
+
 
     void inspectRoom(const Room& room) const;
     void pickUpItem(const Item& item);

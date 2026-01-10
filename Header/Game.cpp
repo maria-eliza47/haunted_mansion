@@ -33,6 +33,16 @@ void Game::run() {
     std::string playerName;
     std::cout << "Enter your name:";
     std::getline(std::cin, playerName);
+    try {
+        if (playerName.empty()) {
+            throw InvalidActionException("Name cannot be empty");
+        }
+        player = Player(playerName);
+    } catch (const GameException& e) {
+        std::cout << "Error: " << e.what() << "\n";
+        player = Player("Traveler");
+    }
+
     if (playerName.empty()) playerName = "Traveler";
     player = Player(playerName);
 
@@ -78,12 +88,16 @@ void Game::setupWorld() {
     mansion.addRoom(hallway);
     mansion.addRoom(library);
     mansion.addRoom(basement);
-    interactions.clear();
-    interactions.push_back(std::make_unique<RoomInteraction>());
-    interactions.push_back(std::make_unique<ItemInteraction>("Old Key"));
-    interactions.push_back(std::make_unique<GhostInteraction>());
-}
 
+    interactions.clear();
+
+    interactions.push_back(std::make_unique<RoomInteraction>(hallway.getName()));
+
+    // ItemInteraction requires an item name:
+    interactions.push_back(std::make_unique<ItemInteraction>("Old Key"));
+
+    interactions.push_back(std::make_unique<GhostInteraction>(false));
+}
 void Game::placeItemsAndGhosts() {
     // Items
     Item key("Old Key", "A rusty key with strange symbols.", true);
@@ -182,8 +196,16 @@ void Game::handleChoice(int choice) {
 
 void Game::actLookAround() {
     player.inspectRoom(*currentRoom);
+    std::unique_ptr<Interaction> currentInteraction;
+    currentInteraction = std::make_unique<RoomInteraction>(currentRoom->getName());
+    currentInteraction->play(player);
     for (auto& inter : interactions) {
         inter->play(player);
+        if (auto* gi = dynamic_cast<GhostInteraction*>(currentInteraction.get())) {
+            if (gi->isHostile()) {
+                std::cout << " this is a hostile ghost interaction.\n";
+            }
+        }
 
     }
     for (auto& inter : interactions) {

@@ -14,7 +14,6 @@
 #include "Interactions/GhostInteraction.h"
 #include "Interactions/RoomInteraction.h"
 
-
 class Game {
 public:
     Game();
@@ -22,6 +21,7 @@ public:
 
 private:
     std::vector<std::unique_ptr<Interaction>> interactions;
+    std::unique_ptr<Interaction> currentInteraction;
 
     Mansion mansion;
     Room hallway;

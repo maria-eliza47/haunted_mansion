@@ -3,6 +3,19 @@
 
 Player::Player() : name("Unnamed Player") {}
 Player::Player(const std::string& n) : name(n) {}
+Player::Player(const Player& other)
+    : name(other.name), inventory(other.inventory) {}
+
+void swap(Player& a, Player& b) noexcept {
+    using std::swap;
+    swap(a.name, b.name);
+    swap(a.inventory, b.inventory);
+}
+
+Player& Player::operator=(Player other) {
+    swap(*this, other);
+    return *this;
+}
 
 void Player::inspectRoom(const Room& room) const {
     std::cout << name << " looks around the room...\n";

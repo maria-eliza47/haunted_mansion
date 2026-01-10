@@ -1,9 +1,8 @@
-#ifndef ITEMINTERACTION_H
-#define ITEMINTERACTION_H
+#ifndef ITEM_INTERACTION_H
+#define ITEM_INTERACTION_H
 
 #include "Interaction.h"
 #include <string>
-#include <memory>
 
 class ItemInteraction : public Interaction {
 public:
@@ -16,8 +15,7 @@ protected:
     void print() const override;
 
 private:
-    std::string item;   // 👈 OBLIGATORIU
+    std::string item;
 };
 
 #endif
-
