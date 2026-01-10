@@ -202,12 +202,12 @@ void Game::handleChoice(int choice) {
 
 void Game::actLookAround() {
     player.inspectRoom(*currentRoom);
-    std::unique_ptr<Interaction> currentInteraction;
+
     currentInteraction = std::make_unique<RoomInteraction>(currentRoom->getName());
     currentInteraction->play(player);
     for (auto& inter : interactions) {
         inter->play(player);
-        if (auto* gi = dynamic_cast<GhostInteraction*>(currentInteraction.get())) {
+        if (const auto* gi = dynamic_cast<GhostInteraction*>(currentInteraction.get())) {
             if (gi->isHostile()) {
                 std::cout << " this is a hostile ghost interaction.\n";
             }
@@ -215,7 +215,7 @@ void Game::actLookAround() {
 
     }
     for (auto& inter : interactions) {
-        if (auto* gi = dynamic_cast<GhostInteraction*>(inter.get())) {
+        if (const auto* gi = dynamic_cast<GhostInteraction*>(inter.get())) {
             // (momentan, doar demo)
             // std::cout << "Dynamic cast: this is a GhostInteraction\n";
             (void)gi;
@@ -358,10 +358,6 @@ void Game::actUseItem() {
         throw MissingItemException("You don't have: " + itemName);
     }
 
-    if (!player.hasItem(itemName)) {
-        std::cout << "You don't have an item called: " << itemName << "in your inventory.\n";
-        return;
-    }
     player.useItem(itemName);
 
     if (itemName == "Candle") {

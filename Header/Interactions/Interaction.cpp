@@ -6,7 +6,7 @@ int Interaction::interactionCount = 0;
 Interaction::Interaction() {
     ++interactionCount;
 }
-
+// cppcheck-suppress unusedFunction
 int Interaction::count() {
     return interactionCount;
 }
