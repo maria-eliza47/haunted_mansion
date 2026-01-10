@@ -66,7 +66,7 @@ private:
     void handleLibraryStairsScene();
     void unlockBasementIfKeyUsedInHallway();
     void tryEndGameWithAmuletInBasement();
-    bool spellbookActivated;
+    [[maybe_unused]] bool spellbookActivated;
     bool spellbookRead;
     bool premiumItemGiven;
 
