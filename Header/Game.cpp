@@ -561,13 +561,6 @@ void Game::actInventory() {
 
 void Game::actHelp() {
     printHelp();
-    for (const auto& it : interactions) {
-        it->display();
-        if (!it->isAvailable(*this)) {
-            continue;
-        }
-        it->play(*this);
-    }
 }
 void Game::actRules() { printRules(); }
 void Game::actMap()   { printMap();   }
