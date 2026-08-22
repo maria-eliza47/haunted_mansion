@@ -1,9 +1,8 @@
-#ifndef GHOST_H
+﻿#ifndef GHOST_H
 #define GHOST_H
 
 #include <string>
 #include <iostream>
-
 
 class Ghost {
 private:
@@ -17,13 +16,15 @@ public:
     Ghost(const Ghost& other);
     Ghost& operator=(const Ghost& other);
     ~Ghost();
+
     void haunt() const;
+    void pacify();
 
     const std::string& getName() const;
-    const std::string& getDescription() const { return description; }
-    bool isHostile() const { return hostile; }
+    const std::string& getDescription() const;
+    bool isHostile() const;
 
     friend std::ostream& operator<<(std::ostream& os, const Ghost& g);
 };
 
-#endif
+#endif // GHOST_H

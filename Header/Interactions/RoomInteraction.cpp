@@ -1,23 +1,30 @@
 #include "RoomInteraction.h"
-#include "../Player.h"
 #include "../Game.h"
+#include "../UI.h"
 #include <iostream>
 #include <utility>
 
 RoomInteraction::RoomInteraction(std::string roomName)
-    : room(std::move(roomName)) {}
+    : roomName(std::move(roomName)) {}
 
 std::unique_ptr<Interaction> RoomInteraction::clone() const {
     return std::make_unique<RoomInteraction>(*this);
 }
 
-void RoomInteraction::execute(Game&) {
-    std::cout << "You feel the atmosphere of the room: " << room << "\n";
+const std::string& RoomInteraction::getRoomName() const {
+    return roomName;
+}
+
+void RoomInteraction::execute(Game& game) {
+    if (roomName == "Library" && !game.isCandleLit()) {
+        std::cout << "[Hint] It's very dark. Light a Candle to inspect hidden spots.\n";
+    }
 }
 
 void RoomInteraction::print() const {
-    std::cout << "[RoomInteraction] room = " << room << "\n";
+    std::cout << "[RoomInteraction] Room target: " << roomName << "\n";
 }
+
 bool RoomInteraction::isAvailable(const Game& game) const {
-    return game.getCurrentRoomName() == room;
+    return game.getCurrentRoomName() == roomName;
 }

@@ -22,22 +22,19 @@ include(cmake/CopyHelper.cmake)
 ###############################################################################
 
 # external dependencies with FetchContent
-# include(FetchContent)
-#
-# set(FETCHCONTENT_QUIET OFF)
-# set(FETCHCONTENT_UPDATES_DISCONNECTED ON)
-#
-# NOTE: Also update env vars used for caching in
-#         - .github/actions/configure-cmake/action.yml
-#         - .github/workflows/cmake.yml
-# FetchContent_Declare(
-#         SomeLib
-#         GIT_REPOSITORY https://github.com/<SomeUser>/<SomeLib>.git
-#         GIT_TAG        <some_git_hash> # <which tag/branch @ <some_date>>
-#         GIT_SHALLOW    1  # works only with branches or tags, not with arbitrary commit hashes
-# )
-#
-# FetchContent_MakeAvailable(SomeLib)
+include(FetchContent)
+
+set(FETCHCONTENT_QUIET OFF)
+set(FETCHCONTENT_UPDATES_DISCONNECTED ON)
+
+FetchContent_Declare(
+        nlohmann_json
+        GIT_REPOSITORY https://github.com/nlohmann/json.git
+        GIT_TAG        v3.11.3
+        GIT_SHALLOW    1
+)
+
+FetchContent_MakeAvailable(nlohmann_json)
 
 ###############################################################################
 
@@ -57,6 +54,10 @@ add_executable(${MAIN_EXECUTABLE_NAME}
         Header/Item.cpp
         Header/Game.h
         Header/Game.cpp
+        Header/DataLoader.h
+        Header/DataLoader.cpp
+        Header/UI.h
+        Header/UI.cpp
         Header/Interactions/Interaction.h
         Header/Interactions/Interaction.cpp
         Header/Interactions/ItemInteraction.h
@@ -69,8 +70,11 @@ add_executable(${MAIN_EXECUTABLE_NAME}
         Header/Exceptions/InvalidActionException.h
         Header/Exceptions/MissingItemException.h
         Header/Exceptions/RoomLockedException.h
+        Header/Exceptions/DataParseException.h
         Header/Interactions/CasperInteraction.h
         Header/Interactions/CasperInteraction.cpp
+        Header/Interactions/RitualInteraction.h
+        Header/Interactions/RitualInteraction.cpp
 )
 include_directories(${CMAKE_SOURCE_DIR}/Header)
 # NOTE: Add all defined targets (e.g. executables, libraries, etc. )
@@ -83,10 +87,8 @@ set_compiler_flags(RUN_SANITIZERS TRUE TARGET_NAMES ${MAIN_EXECUTABLE_NAME})
 ###############################################################################
 
 # use SYSTEM so cppcheck and clang-tidy do not report warnings from these directories
-# target_include_directories(${MAIN_EXECUTABLE_NAME} SYSTEM PRIVATE ext/<SomeHppLib>/include)
-# target_include_directories(${MAIN_EXECUTABLE_NAME} SYSTEM PRIVATE ${<SomeLib>_SOURCE_DIR}/include)
-# target_link_directories(${MAIN_EXECUTABLE_NAME} PRIVATE ${<SomeLib>_BINARY_DIR}/lib)
-# target_link_libraries(${MAIN_EXECUTABLE_NAME} <SomeLib>)
+target_include_directories(${MAIN_EXECUTABLE_NAME} SYSTEM PRIVATE ${nlohmann_json_SOURCE_DIR}/include)
+target_link_libraries(${MAIN_EXECUTABLE_NAME} PRIVATE nlohmann_json::nlohmann_json)
 
 ###############################################################################
 
@@ -97,6 +99,5 @@ if(APPLE)
     install(FILES launcher.command DESTINATION ${DESTINATION_DIR})
 endif()
 
-copy_files(FILES tastatura.txt COPY_TO_DESTINATION TARGET_NAME ${MAIN_EXECUTABLE_NAME})
-# copy_files(FILES tastatura.txt config.json DIRECTORY images sounds COPY_TO_DESTINATION TARGET_NAME ${MAIN_EXECUTABLE_NAME})
-# copy_files(DIRECTORY images sounds COPY_TO_DESTINATION TARGET_NAME ${MAIN_EXECUTABLE_NAME})
+copy_files(FILES tastatura.txt DIRECTORY data COPY_TO_DESTINATION TARGET_NAME ${MAIN_EXECUTABLE_NAME})
+

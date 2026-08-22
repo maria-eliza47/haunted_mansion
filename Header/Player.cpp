@@ -1,15 +1,20 @@
-#include "Player.h"
+﻿#include "Player.h"
 #include <iostream>
+#include <utility>
 
-Player::Player() : name("Unnamed Player") {}
-Player::Player(const std::string& n) : name(n) {}
+Player::Player() : name("Traveler"), sanity(100) {}
+
+Player::Player(std::string n, int initialSanity)
+    : name(std::move(n)), sanity(initialSanity) {}
+
 Player::Player(const Player& other)
-    : name(other.name), inventory(other.inventory) {}
+    : name(other.name), inventory(other.inventory), sanity(other.sanity) {}
 
 void swap(Player& a, Player& b) noexcept {
     using std::swap;
     swap(a.name, b.name);
     swap(a.inventory, b.inventory);
+    swap(a.sanity, b.sanity);
 }
 
 Player& Player::operator=(Player other) {
@@ -17,45 +22,91 @@ Player& Player::operator=(Player other) {
     return *this;
 }
 
+const std::string& Player::getName() const {
+    return name;
+}
+
+int Player::getSanity() const {
+    return sanity;
+}
+
+void Player::modifySanity(int delta) {
+    sanity += delta;
+    if (sanity > 100) sanity = 100;
+    if (sanity < 0) sanity = 0;
+}
+
+bool Player::isAlive() const {
+    return sanity > 0;
+}
+
 void Player::inspectRoom(const Room& room) const {
-    std::cout << name << " looks around the room...\n";
+    std::cout << "\n" << name << " carefully observes the surroundings...\n";
     room.describe();
 }
 
 void Player::pickUpItem(const Item& item) {
     if (item.getName() == "None") {
-        std::cout << "You can't pick that up.\n";
+        std::cout << "You cannot pick that up.\n";
         return;
     }
 
-    for (const auto& i : inventory) {
-        if (item.getName() == i.getName()) {
-            std::cout << "Item already collected: \n" << item.getName() <<  "\n";
-            return;
-        }
+    if (hasItem(item.getName())) {
+        std::cout << "You already have " << item.getName() << " in your inventory.\n";
+        return;
     }
 
     inventory.push_back(item);
-    std::cout << "You picked up " << item.getName() << "!\n";
+    std::cout << "-> Added to inventory: [" << item.getName() << "]\n";
 }
 
-void Player::useItem(const std::string& itemName) {
+bool Player::useItem(const std::string& itemName) {
     for (const auto& i : inventory) {
         if (i.getName() == itemName && i.isUsable()) {
-            std::cout << name << " used " << i.getName() << " successfully.\n";
-            return;
+            std::cout << name << " uses [" << i.getName() << "].\n";
+            return true;
         }
     }
-    std::cout << name << " doesn't have a usable item named " << itemName << ".\n";
+    std::cout << name << " does not possess a usable item called \"" << itemName << "\".\n";
+    return false;
+}
+
+bool Player::hasItem(const std::string& itemName) const {
+    for (const auto& i : inventory) {
+        if (i.getName() == itemName)
+            return true;
+    }
+    return false;
+}
+
+bool Player::removeItem(const std::string& itemName) {
+    for (auto it = inventory.begin(); it != inventory.end(); ++it) {
+        if (it->getName() == itemName) {
+            inventory.erase(it);
+            return true;
+        }
+    }
+    return false;
 }
 
 void Player::showInventory() const {
-    std::cout << name << "'s Inventory:\n";
-    for (const auto& i : inventory)
-        std::cout << " - " << i << "\n";
+    std::cout << "\n=== " << name << "'s Inventory ===\n";
+    std::cout << "Sanity: " << sanity << "/100\n";
+    if (inventory.empty()) {
+        std::cout << "  (Empty)\n";
+    } else {
+        for (const auto& i : inventory)
+            std::cout << "  - " << i << "\n";
+    }
+    std::cout << "===========================\n";
 }
+
+const std::vector<Item>& Player::getInventory() const {
+    return inventory;
+}
+
 std::ostream& operator<<(std::ostream& os, const Player& p) {
-    os << "Player: " << p.name << "\nInventory:\n";
+    os << "Player: " << p.name << " (Sanity: " << p.sanity << "/100)\nInventory:\n";
     if (p.inventory.empty()) {
         os << " (empty)\n";
     } else {

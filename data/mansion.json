@@ -1,0 +1,95 @@
+﻿{
+  "title": "Haunted Mansion - The Curse of Blackwood Manor",
+  "intro": "You awaken on the cold marble floor of Blackwood Manor. A violent thunderstorm rages outside, lightning flashing through cracked stained glass. The air is ice-cold, and distant whispers echo from the walls. You must break the mansion's curse before your sanity dissolves into the shadows...",
+  "rooms": [
+    {
+      "name": "Hallway",
+      "description": "A grand, decaying foyer with cracked mirrors, a grand pendulum clock frozen at 3:33 AM, and shadowy family portraits whose eyes seem to follow you.",
+      "locked": false,
+      "items": [
+        {
+          "name": "Old Key",
+          "description": "A heavy iron key carved with serpent runes. It looks like it unlocks the basement crypt.",
+          "usable": true
+        },
+        {
+          "name": "Candle",
+          "description": "A consecrated beeswax candle. Its pure flame can illuminate darkness and reveal hidden passages.",
+          "usable": true
+        }
+      ],
+      "ghost": {
+        "name": "Whispering Shadow",
+        "description": "A spectral silhouette drifting near the grand mirrors, murmuring warnings about the crypt below.",
+        "hostile": false
+      },
+      "connections": ["Library", "Conservatory", "Basement"]
+    },
+    {
+      "name": "Library",
+      "description": "Towering mahogany bookshelves stretch into the darkness, holding centuries of forbidden occult tomes and dusty family journals.",
+      "locked": false,
+      "items": [
+        {
+          "name": "Spellbook",
+          "description": "An ancient grimoire bound in dark leather, detailing sacred exorcism verses to banish evil spirits.",
+          "usable": true
+        }
+      ],
+      "ghost": {
+        "name": "Wraith of the Library",
+        "description": "The tortured spirit of Lord Blackwood, obsessively guarding his dark research from intruders.",
+        "hostile": true
+      },
+      "connections": ["Hallway", "Attic"]
+    },
+    {
+      "name": "Conservatory",
+      "description": "An overgrown Victorian greenhouse under a shattered glass dome. Withered black roses and thorny vines crawl over antique statues.",
+      "locked": false,
+      "items": [
+        {
+          "name": "Silver Dagger",
+          "description": "A finely forged silver blade engraved with protective runes, capable of dispelling aggressive wraiths.",
+          "usable": true
+        },
+        {
+          "name": "Healing Tonic",
+          "description": "An herbal restorative draught brewed from soothing mountain herbs (+40 Sanity).",
+          "usable": true
+        }
+      ],
+      "connections": ["Hallway"]
+    },
+    {
+      "name": "Attic",
+      "description": "A quiet, moonlit nursery filled with dusty rocking horses, vintage music boxes, and forgotten childhood memories.",
+      "locked": false,
+      "items": [],
+      "ghost": {
+        "name": "Casper the Friendly Ghost",
+        "description": "The innocent, glowing spirit of the young Blackwood heir, seeking someone with a kind heart.",
+        "hostile": false
+      },
+      "connections": ["Library"]
+    },
+    {
+      "name": "Basement",
+      "description": "A freezing stone crypt deep beneath the mansion foundations. In the center stands the ancient Obsidian Altar of Purification.",
+      "locked": true,
+      "items": [
+        {
+          "name": "Amulet",
+          "description": "A radiant silver talisman that wards off dark corruption and serves as the core key to the ritual altar.",
+          "usable": true
+        }
+      ],
+      "ghost": {
+        "name": "Guardian of the Crypt",
+        "description": "A demonic spectral warden bound to the altar to protect the ancient curse.",
+        "hostile": true
+      },
+      "connections": ["Hallway"]
+    }
+  ]
+}

@@ -3,6 +3,7 @@
 
 #include <string>
 #include <vector>
+#include <iostream>
 #include "Item.h"
 #include "Ghost.h"
 
@@ -11,48 +12,44 @@ private:
     std::string name;
     std::string description;
     std::vector<Item> items;
-    bool ghostPresent;
+    bool ghostPresent = false;
     Ghost ghost;
     bool explored = false;
     bool locked = false;
+    std::vector<std::string> connections;
 
 public:
-    Room(const std::string& n, const std::string& d);
+    Room();
+    Room(std::string n, std::string d, bool isLocked = false);
 
-    const std::string& getName() const { return name; }
-    const std::string& getDescription() const { return description; }
+    const std::string& getName() const;
+    const std::string& getDescription() const;
 
     void addItem(const Item& item);
+    bool hasItem(const std::string& itemName) const;
+    Item takeItem(const std::string& itemName);
+    const std::vector<Item>& getItems() const;
+
     void setGhost(const Ghost& g);
+    void removeGhost();
     bool hasGhost() const;
     const Ghost& getGhost() const;
+    void pacifyGhost();
+
+    bool hasBeenExplored() const;
+    void setExplored(bool val);
+
+    bool isLocked() const;
+    void setLocked(bool isLocked);
+    void unlock();
+
+    void addConnection(const std::string& roomName);
+    bool hasConnection(const std::string& roomName) const;
+    const std::vector<std::string>& getConnections() const;
+
     void describe() const;
 
-    bool hasBeenExplored() const { return explored; }
-    void setExplored(bool val) { explored = val; }
-
-    bool isLocked() const { return locked; }
-    void setLocked(bool state) { locked = state; }
-
-    bool hasItem( const std::string& itemName) const {
-        for (const auto& item : items) {
-            if (item.getName() == itemName) {
-                return true;
-            }
-        }
-        return false;
-    }
-        Item takeItem( const std::string& itemName ) {
-        for (auto it = items.begin(); it != items.end(); it++) {
-            if ((*it).getName() == itemName) {
-                Item found = *it;
-                items.erase(it);
-                return found;
-            }
-        }
-        return Item("None", "Invalid item", false);
-    }
     friend std::ostream& operator<<(std::ostream& os, const Room& r);
 };
 
-#endif
+#endif // ROOM_H

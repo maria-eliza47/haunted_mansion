@@ -2,82 +2,85 @@
 #define OOP_GAME_H
 
 #include <string>
-#include "Item.h"
-#include "Room.h"
-#include "Player.h"
-#include "Ghost.h"
-#include "Mansion.h"
-#include <memory>
 #include <vector>
+#include <memory>
+#include "Mansion.h"
+#include "Player.h"
+#include "Room.h"
+#include "Item.h"
+#include "Ghost.h"
 #include "Interactions/Interaction.h"
-#include "Interactions/CasperInteraction.h"
-#include "Interactions/ItemInteraction.h"
-#include "Interactions/GhostInteraction.h"
-#include "Interactions/RoomInteraction.h"
 
 class Game {
 public:
     Game();
+    ~Game() = default;
+
     void run();
+    void initialize(const std::string& dataPath = "data/mansion.json");
+
     const std::string& getCurrentRoomName() const;
     bool currentRoomHasItem(const std::string& itemName) const;
     bool currentRoomHasGhost() const;
-    bool playerHasFlag(const std::string& flag) const;
+    std::string getCurrentRoomGhostName() const;
+    bool getCurrentRoomGhostHostile() const;
 
+    Player& getPlayer();
+    const Player& getPlayer() const;
+
+    void damagePlayerSanity(int amount);
+    void restorePlayerSanity(int amount);
+    void givePlayerItem(const Item& item);
+    void removePlayerItem(const std::string& itemName);
+    void pacifyCurrentGhost();
+    void removeCurrentGhost();
+
+    void setCandleLit(bool lit);
+    bool isCandleLit() const;
+
+    void unlockBasement();
+    bool isBasementLocked() const;
+
+    void discoverAttic();
+    bool isAtticDiscovered() const;
+
+    void setCasperMet(bool met);
+    bool isCasperMet() const;
+
+    void setCasperAngry(bool angry);
+    bool isCasperAngry() const;
+
+    void tryAltarRitual();
+
+    bool readIntSafe(int& out);
 
 private:
-    std::vector<std::unique_ptr<Interaction>> interactions;
-    std::unique_ptr<Interaction> currentInteraction;
-
     Mansion mansion;
-    Room hallway;
-    Room library;
-    Room basement;
-    Room attic;
-
     Player player;
-
     Room* currentRoom;
-    bool gameRunning;
 
-    bool stairsFound;
+    bool gameRunning;
+    bool candleLit;
     bool atticDiscovered;
     bool casperMet;
     bool casperAngry;
-    bool goodEndingUnlocked;
-    //bool neutralEndingUnlocked;
-    //bool badEndingUnlocked;
+    bool ritualCompleted;
 
-    void printIntro();
-    void setupWorld();
-    void placeItemsAndGhosts();
+    std::vector<std::unique_ptr<Interaction>> interactions;
 
-    void printRules() const;
-    void printHelp() const;
-    void printMap() const;
-    void showMenu() const;
+    void setupInteractions();
+    void triggerAvailableInteractions();
+
     void handleChoice(int choice);
-
     void actLookAround();
     void actPickItem();
     void actUseItem();
     void actMove();
-    void actExit();
     void actInventory();
-    void actHelp();
-    void actRules();
     void actMap();
-    void interactWithCasper();
-    void handleLibraryStairsScene();
-    void unlockBasementIfKeyUsedInHallway();
-    void tryEndGameWithAmuletInBasement();
-    [[maybe_unused]] bool spellbookActivated;
-    bool spellbookRead;
-    bool premiumItemGiven;
-
-
-
-    bool readIntSafe(int& out);
+    void actRules();
+    void actHelp();
+    void actExit();
 };
 
-#endif //OOP_GAME_H
+#endif // OOP_GAME_H

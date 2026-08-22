@@ -1,19 +1,24 @@
-#include "Item.h"
+﻿#include "Item.h"
+#include <utility>
 
 Item::Item() : name("Unknown"), description("No description."), usable(false) {}
 
-Item::Item(const std::string& n, const std::string& d, bool u)
-    : name(n), description(d), usable(u) {}
+Item::Item(std::string name, std::string description, bool usable)
+    : name(std::move(name)), description(std::move(description)), usable(usable) {}
 
-Item::~Item() {}
+const std::string& Item::getName() const {
+    return name;
+}
 
-const std::string& Item::getName() const { return name; }
-// cppcheck-suppress constFunction
-// Assuming 'description' is a class member of type std::string
-const std::string& Item::getDescription() const { return description; }
-bool Item::isUsable() const { return usable; }
+const std::string& Item::getDescription() const {
+    return description;
+}
+
+bool Item::isUsable() const {
+    return usable;
+}
 
 std::ostream& operator<<(std::ostream& os, const Item& item) {
-    os << item.name << " - " << item.description << (item.usable ? " (usable)" : " (not usable)");
+    os << item.name << " (" << item.description << ")" << (item.usable ? " [usable]" : " [passive]");
     return os;
 }

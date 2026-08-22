@@ -1,4 +1,4 @@
-#ifndef CASPER_INTERACTION_H
+﻿#ifndef CASPER_INTERACTION_H
 #define CASPER_INTERACTION_H
 
 #include "Interaction.h"
@@ -7,16 +7,20 @@
 class Game;
 
 class CasperInteraction : public Interaction {
-    std::string mood; // "nice", "neutral", "rude"
-
 public:
-    explicit CasperInteraction(std::string mood);
+    explicit CasperInteraction(std::string defaultMood = "neutral");
 
     std::unique_ptr<Interaction> clone() const override;
-    void execute(Game& game) override;
-    void print() const override;
     bool isAvailable(const Game& game) const override;
 
+    const std::string& getMood() const;
+
+protected:
+    void execute(Game& game) override;
+    void print() const override;
+
+private:
+    std::string mood;
 };
 
-#endif
+#endif // CASPER_INTERACTION_H

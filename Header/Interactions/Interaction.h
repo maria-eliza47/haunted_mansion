@@ -1,7 +1,8 @@
-#ifndef OOP_INTERACTION_H
+﻿#ifndef OOP_INTERACTION_H
 #define OOP_INTERACTION_H
 
 #include <memory>
+#include <iostream>
 
 class Game;
 
@@ -10,21 +11,21 @@ public:
     Interaction();
     virtual ~Interaction() = default;
 
-    static int count();
+    // Non-Virtual Interface (NVI)
+    void play(Game& game);
+    void display() const;
 
-    void play(Game& game) {
-        execute(game);
-    }
-
-    void display() const { print(); }
-
-    virtual void execute(Game& game) = 0;
-    virtual bool isAvailable(const Game& game) const { (void)game; return true; }
-    virtual void print() const = 0;
     virtual std::unique_ptr<Interaction> clone() const = 0;
+    virtual bool isAvailable(const Game& game) const;
+
+    static int getCount();
+
+protected:
+    virtual void execute(Game& game) = 0;
+    virtual void print() const = 0;
 
 private:
     static int interactionCount;
 };
 
-#endif
+#endif // OOP_INTERACTION_H

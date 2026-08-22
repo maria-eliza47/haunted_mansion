@@ -1,5 +1,4 @@
-
-#ifndef OOP_ITEM_H
+﻿#ifndef OOP_ITEM_H
 #define OOP_ITEM_H
 
 #include <string>
@@ -10,11 +9,11 @@ private:
     std::string name;
     std::string description;
     bool usable;
+
 public:
     Item();
-    Item(const std::string& name, const std::string& description, bool usable);
-
-    ~Item();
+    Item(std::string name, std::string description, bool usable);
+    ~Item() = default;
 
     const std::string& getName() const;
     const std::string& getDescription() const;
@@ -23,4 +22,4 @@ public:
     friend std::ostream& operator<<(std::ostream& os, const Item& item);
 };
 
-#endif //OOP_ITEM_H
+#endif // OOP_ITEM_H
