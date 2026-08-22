@@ -97,18 +97,17 @@ const Player& Game::getPlayer() const {
 
 void Game::damagePlayerSanity(int amount) {
     player.modifySanity(-amount);
-    std::cout << UI::RED << "[!] Sanity decreased by " << amount << ". Current Sanity: " << player.getSanity() << "%\n" << UI::RESET;
+    std::cout << "[!] Sanity decreased by " << amount << ". Current Sanity: " << player.getSanity() << "%\n";
     if (!player.isAlive()) {
         UI::printEnding("GAME OVER - YOUR MIND WAS CONSUMED BY MADNESS",
-                        "The terror of the haunted mansion was too great. Your soul now wanders the halls forever.",
-                        false);
+                        "The terror of the haunted mansion was too great. Your soul now wanders the halls forever.");
         gameRunning = false;
     }
 }
 
 void Game::restorePlayerSanity(int amount) {
     player.modifySanity(amount);
-    std::cout << UI::GREEN << "[+] Sanity restored by " << amount << ". Current Sanity: " << player.getSanity() << "%\n" << UI::RESET;
+    std::cout << "[+] Sanity restored by " << amount << ". Current Sanity: " << player.getSanity() << "%\n";
 }
 
 void Game::givePlayerItem(const Item& item) {
