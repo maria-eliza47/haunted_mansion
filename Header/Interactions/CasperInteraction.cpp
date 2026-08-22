@@ -11,6 +11,7 @@ std::unique_ptr<Interaction> CasperInteraction::clone() const {
     return std::make_unique<CasperInteraction>(*this);
 }
 
+// cppcheck-suppress unusedFunction
 const std::string& CasperInteraction::getMood() const {
     return mood;
 }

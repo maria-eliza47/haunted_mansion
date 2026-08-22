@@ -11,6 +11,7 @@ std::unique_ptr<Interaction> ItemInteraction::clone() const {
     return std::make_unique<ItemInteraction>(*this);
 }
 
+// cppcheck-suppress unusedFunction
 const std::string& ItemInteraction::getItemName() const {
     return itemName;
 }

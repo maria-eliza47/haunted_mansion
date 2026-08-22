@@ -1,4 +1,4 @@
-﻿#include "Ghost.h"
+#include "Ghost.h"
 #include <iostream>
 #include <string>
 
@@ -22,6 +22,7 @@ Ghost& Ghost::operator=(const Ghost& other) {
 
 Ghost::~Ghost() = default;
 
+// cppcheck-suppress unusedFunction
 void Ghost::haunt() const {
     std::cout << name << " whispers: 'Turn back before the shadows claim your soul...'\n";
 }

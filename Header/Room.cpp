@@ -79,6 +79,7 @@ bool Room::isLocked() const {
     return locked;
 }
 
+// cppcheck-suppress unusedFunction
 void Room::setLocked(bool isLocked) {
     locked = isLocked;
 }

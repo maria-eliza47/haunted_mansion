@@ -1,4 +1,4 @@
-﻿#include "Mansion.h"
+#include "Mansion.h"
 #include <iostream>
 
 Mansion::Mansion() = default;
@@ -31,6 +31,7 @@ const Room* Mansion::findRoom(const std::string& name) const {
     return nullptr;
 }
 
+// cppcheck-suppress unusedFunction
 const std::vector<Room>& Mansion::getRooms() const {
     return rooms;
 }

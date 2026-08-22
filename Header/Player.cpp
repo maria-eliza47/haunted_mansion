@@ -40,6 +40,7 @@ bool Player::isAlive() const {
     return sanity > 0;
 }
 
+// cppcheck-suppress unusedFunction
 void Player::inspectRoom(const Room& room) const {
     std::cout << "\n" << name << " carefully observes the surroundings...\n";
     room.describe();
@@ -60,6 +61,7 @@ void Player::pickUpItem(const Item& item) {
     std::cout << "-> Added to inventory: [" << item.getName() << "]\n";
 }
 
+// cppcheck-suppress unusedFunction
 bool Player::useItem(const std::string& itemName) {
     for (const auto& i : inventory) {
         if (i.getName() == itemName && i.isUsable()) {

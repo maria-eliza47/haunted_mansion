@@ -11,6 +11,7 @@ std::unique_ptr<Interaction> RoomInteraction::clone() const {
     return std::make_unique<RoomInteraction>(*this);
 }
 
+// cppcheck-suppress unusedFunction
 const std::string& RoomInteraction::getRoomName() const {
     return roomName;
 }

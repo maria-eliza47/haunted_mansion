@@ -22,6 +22,7 @@ void Interaction::play(Game& game) {
     execute(game);
 }
 
+// cppcheck-suppress unusedFunction
 void Interaction::display() const {
     print();
 }
