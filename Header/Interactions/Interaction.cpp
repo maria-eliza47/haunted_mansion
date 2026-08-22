@@ -1,9 +1,17 @@
-﻿#include "Interaction.h"
+#include "Interaction.h"
 
 int Interaction::interactionCount = 0;
 
 Interaction::Interaction() {
     ++interactionCount;
+}
+
+Interaction::Interaction(const Interaction&) {
+    ++interactionCount;
+}
+
+Interaction::~Interaction() {
+    --interactionCount;
 }
 
 int Interaction::getCount() {

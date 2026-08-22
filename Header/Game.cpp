@@ -16,13 +16,16 @@
 #include <utility>
 
 Game::Game()
-    : currentRoom(nullptr),
+    : mansion(),
+      player(),
+      currentRoom(nullptr),
       gameRunning(true),
       candleLit(false),
       atticDiscovered(false),
       casperMet(false),
       casperAngry(false),
-      ritualCompleted(false) {}
+      ritualCompleted(false),
+      interactions() {}
 
 void Game::initialize(const std::string& dataPath) {
     mansion = DataLoader::loadMansion(dataPath);
@@ -422,10 +425,6 @@ void Game::actRules() {
 void Game::actHelp() {
     UI::printHelp();
     std::cout << "[Engine Info] Active interaction objects in memory: " << Interaction::getCount() << "\n";
-    for (const auto& inter : interactions) {
-        auto copy = inter->clone();
-        (void)copy;
-    }
 }
 
 void Game::actExit() {

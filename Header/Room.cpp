@@ -3,10 +3,10 @@
 #include <utility>
 
 Room::Room()
-    : name("Unknown Room"), description("A dark empty space."), ghostPresent(false), explored(false), locked(false) {}
+    : name("Unknown Room"), description("A dark empty space."), items(), ghostPresent(false), ghost(), explored(false), locked(false), connections() {}
 
 Room::Room(std::string n, std::string d, bool isLocked)
-    : name(std::move(n)), description(std::move(d)), ghostPresent(false), explored(false), locked(isLocked) {}
+    : name(std::move(n)), description(std::move(d)), items(), ghostPresent(false), ghost(), explored(false), locked(isLocked), connections() {}
 
 const std::string& Room::getName() const {
     return name;

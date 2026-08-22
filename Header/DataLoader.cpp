@@ -1,4 +1,4 @@
-﻿#include "DataLoader.h"
+#include "DataLoader.h"
 #include "Exceptions/DataParseException.h"
 #include <nlohmann/json.hpp>
 #include <fstream>
@@ -6,6 +6,15 @@
 
 Mansion DataLoader::loadMansion(const std::string& filePath) {
     std::ifstream file(filePath);
+    if (!file.is_open()) {
+        file.open("../" + filePath);
+    }
+    if (!file.is_open()) {
+        file.open("data/mansion.json");
+    }
+    if (!file.is_open()) {
+        file.open("../data/mansion.json");
+    }
     if (!file.is_open()) {
         throw DataParseException("Could not open file: " + filePath);
     }

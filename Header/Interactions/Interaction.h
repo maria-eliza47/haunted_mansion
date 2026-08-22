@@ -1,4 +1,4 @@
-﻿#ifndef OOP_INTERACTION_H
+#ifndef OOP_INTERACTION_H
 #define OOP_INTERACTION_H
 
 #include <memory>
@@ -9,7 +9,9 @@ class Game;
 class Interaction {
 public:
     Interaction();
-    virtual ~Interaction() = default;
+    Interaction(const Interaction&);
+    Interaction& operator=(const Interaction&) = default;
+    virtual ~Interaction();
 
     // Non-Virtual Interface (NVI)
     void play(Game& game);

@@ -1,11 +1,11 @@
-﻿#include "Player.h"
+#include "Player.h"
 #include <iostream>
 #include <utility>
 
-Player::Player() : name("Traveler"), sanity(100) {}
+Player::Player() : name("Traveler"), inventory(), sanity(100) {}
 
 Player::Player(std::string n, int initialSanity)
-    : name(std::move(n)), sanity(initialSanity) {}
+    : name(std::move(n)), inventory(), sanity(initialSanity) {}
 
 Player::Player(const Player& other)
     : name(other.name), inventory(other.inventory), sanity(other.sanity) {}
